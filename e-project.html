@@ -1,0 +1,3212 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- 
+        ===========================================
+        META TAGS & DOCUMENT CONFIGURATION
+        ===========================================
+        Purpose: Establishes character encoding, viewport scaling for responsive design,
+        and compatibility modes for cross-browser rendering optimization.
+    -->
+    <meta charset="UTF-8">
+  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="SportsInfo - Comprehensive Sports Encyclopedia by Infocom">
+    <meta name="keywords" content="sports, encyclopedia, football, tennis, swimming, athletics">
+    <meta name="author" content="Infocom Solutions">
+
+    <title>SportsInfo - Your Ultimate Sports Encyclopedia</title>
+
+    <!-- 
+        ===========================================
+        EXTERNAL FRAMEWORK & LIBRARY DEPENDENCIES
+        ===========================================
+        Bootstrap 5.3.0: Provides grid system, responsive utilities, and pre-built components
+        FontAwesome 6.4.0: Vector icon library for scalable UI graphics
+    -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- 
+        ===========================================
+        CUSTOM STYLESHEET INTEGRATION
+        ===========================================
+        Embedded styles for brand-specific theming and component customization
+    -->
+    <style>
+        /* 
+        ============================================
+        ROOT VARIABLES & GLOBAL COLOR SCHEME
+        ============================================
+        CSS Custom Properties for maintaining consistent design tokens
+        across the entire application interface
+        */
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --text-dark: #2c3e50;
+            --text-light: #ecf0f1;
+            --bg-light: #f8f9fa;
+            --bg-dark: #34495e;
+            --transition-speed: 0.3s;
+        }
+
+        /* 
+        ============================================
+        GLOBAL RESET & BASE TYPOGRAPHY
+        ============================================
+        Ensures consistent rendering across browsers and establishes
+        smooth scrolling behavior for anchor navigation
+        */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            /* Enables smooth scrolling for internal navigation */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+        }
+
+        /* 
+        ============================================
+        NAVIGATION BAR STYLING
+        ============================================
+        Fixed-top navigation with custom branding and hover effects
+        Z-index ensures navbar stays above all content during scroll
+        */
+       header {
+    position: relative;
+}
+
+.navbar {
+    background: linear-gradient(135deg, var(--primary-color), var(--bg-dark));
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 1rem 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    transition: all var(--transition-speed) ease;
+}
+
+/* Adds extra depth + slightly tighter padding once user scrolls down */
+.navbar.scrolled {
+    padding: 0.6rem 0;
+    background: linear-gradient(135deg, var(--bg-dark), var(--primary-color));
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(10px);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--text-light) !important;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform var(--transition-speed);
+}
+
+.navbar-brand:hover {
+    transform: scale(1.03);
+}
+
+/* Logo placeholder styling with circular border + subtle glow */
+.logo-placeholder {
+    width: 45px;
+    height: 45px;
+    background: var(--secondary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    border: 3px solid var(--text-light);
+    box-shadow: 0 0 0 0 rgba(var(--secondary-color-rgb, 13, 110, 253), 0.4);
+    transition: all var(--transition-speed);
+}
+
+.navbar-brand:hover .logo-placeholder {
+    box-shadow: 0 0 15px 2px rgba(255, 255, 255, 0.3);
+}
+
+.navbar-nav .nav-link {
+    color: var(--text-light) !important;
+    margin: 0 10px;
+    padding: 8px 4px !important;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    transition: all var(--transition-speed);
+    position: relative;
+    opacity: 0.85;
+}
+
+/* Animated underline effect on hover */
+.navbar-nav .nav-link:hover {
+    color: var(--secondary-color) !important;
+    transform: translateY(-2px);
+    opacity: 1;
+}
+
+.navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: var(--secondary-color);
+    border-radius: 2px;
+    transition: all var(--transition-speed);
+    transform: translateX(-50%);
+}
+
+.navbar-nav .nav-link:hover::after {
+    width: 80%;
+}
+
+/* Active page indicator */
+.navbar-nav .nav-link.active {
+    color: var(--secondary-color) !important;
+    opacity: 1;
+}
+
+.navbar-nav .nav-link.active::after {
+    width: 80%;
+}
+
+/* Smoother mobile toggle */
+.navbar-toggler {
+    border: none;
+    outline: none;
+    transition: transform var(--transition-speed);
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+.navbar-toggler:hover {
+    transform: scale(1.05);
+}
+
+@media (max-width: 991px) {
+    .navbar-collapse {
+        background: var(--bg-dark);
+        margin-top: 15px;
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    .navbar-nav .nav-link {
+        margin: 6px 0;
+        text-align: center;
+    }
+
+    .navbar-nav .nav-link::after {
+        display: none;
+    }
+}
+
+        /* 
+        ============================================
+        HERO SECTION DESIGN
+        ============================================
+        Full-width banner with gradient overlay and centered content
+        */
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 150px 0 100px;
+            text-align: center;
+            margin-top: 76px;
+            /* Offset for fixed navbar */
+        }
+
+        .hero-section h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-section p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* 
+        ============================================
+        SEARCH BAR COMPONENT
+        ============================================
+        Floating search interface with icon integration
+        Real-time filtering capabilities via JavaScript event listeners
+        */
+        .search-container {
+            max-width: 600px;
+            margin: 40px auto 0;
+            position: relative;
+        }
+
+        .search-container input {
+            padding: 15px 50px 15px 20px;
+            border-radius: 50px;
+            border: none;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            font-size: 1rem;
+        }
+
+        .search-container i {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+        }
+
+        /* 
+        ============================================
+        SPORT CARD LAYOUT SYSTEM
+        ============================================
+        Alternating background colors for visual separation
+        Responsive grid system adapting to viewport width
+        */
+        .sport-section {
+            padding: 80px 0;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .sport-section:nth-child(even) {
+            background-color: white;
+        }
+
+        .sport-section:nth-child(odd) {
+            background-color: var(--bg-light);
+        }
+
+        .sport-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .sport-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+
+        /* Decorative underline with gradient */
+        .sport-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        .sport-icon {
+            font-size: 3rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        /* 
+        ============================================
+        INFO CARD COMPONENT ARCHITECTURE
+        ============================================
+        Reusable cards with hover effects and shadow elevations
+        */
+        .info-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all var(--transition-speed);
+            height: 100%;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .info-card h4 {
+            color: var(--secondary-color);
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .info-card ul li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .info-card ul li:last-child {
+            border-bottom: none;
+        }
+
+        .info-card ul li i {
+            color: var(--success-color);
+            margin-right: 10px;
+        }
+
+        /* 
+        ============================================
+        PLAYER CARD INTERACTIVE COMPONENT
+        ============================================
+        Click-triggerable cards that launch modal popups
+        Cursor pointer indicates interactive element
+        */
+        .player-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 10px;
+            display: flex;
+            padding: 0;
+            overflow: hidden;
+            align-items: center;
+            gap: 20px;
+            text-align: left;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            height: 100%;
+            padding-right: 15px;
+        }
+
+        .player-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .player-avatar {
+            width: 100px;
+            height: 100px;
+            background: var(--secondary-color);
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            border: 4px solid white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .player-card h5 {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .player-card p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* 
+        ============================================
+        MODAL OVERLAY CUSTOMIZATION
+        ============================================
+        Enhanced Bootstrap modal with custom headers and animations
+        */
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .modal-header .btn-close {
+            filter: brightness(0) invert(1);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .modal-stat {
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        .modal-stat strong {
+            color: var(--secondary-color);
+        }
+
+        /* 
+        ============================================
+        BADGE COMPONENT SYSTEM
+        ============================================
+        Visual indicators for team vs individual sports classification
+        */
+        .badge-team {
+            background-color: var(--success-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .badge-individual {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* 
+        ============================================
+        GUESTBOOK FORM STYLING
+        ============================================
+        Modern form interface with floating labels and validation states
+        */
+        .guestbook-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 80px 0;
+            color: white;
+        }
+
+        .guestbook-form {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            color: var(--text-dark);
+        }
+
+        .guestbook-form .form-label {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .guestbook-form .form-control,
+        .guestbook-form .form-select {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 12px;
+            transition: all var(--transition-speed);
+        }
+
+        .guestbook-form .form-control:focus,
+        .guestbook-form .form-select:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+        }
+
+        .guestbook-form .btn-submit {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            border: none;
+            padding: 12px 40px;
+            font-weight: 600;
+            border-radius: 50px;
+            color: white;
+            transition: all var(--transition-speed);
+        }
+
+        .guestbook-form .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 
+        ============================================
+        ABOUT US SECTION DESIGN
+        ============================================
+        Corporate information display with icon grid layout
+        */
+        .about-section {
+            padding: 80px 0;
+            background-color: white;
+        }
+
+        .about-card {
+            text-align: center;
+            padding: 30px;
+            border-radius: 15px;
+            transition: all var(--transition-speed);
+        }
+
+        .about-card:hover {
+            background-color: var(--bg-light);
+        }
+
+        .about-card i {
+            font-size: 3rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        /* 
+        ============================================
+        CONTACT SECTION LAYOUT
+        ============================================
+        Two-column responsive grid for contact information
+        */
+        .contact-section {
+            padding: 80px 0;
+            background: var(--bg-light);
+        }
+
+        .contact-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: var(--bg-light);
+            border-radius: 10px;
+            transition: all var(--transition-speed);
+        }
+
+        .contact-item:hover {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .contact-item i {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-right: 20px;
+            min-width: 40px;
+        }
+
+        .contact-item:hover i {
+            color: white;
+        }
+
+        .contact-item a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .contact-item:hover a {
+            color: white;
+        }
+
+        /* 
+        ============================================
+        FOOTER COMPONENT
+        ============================================
+        Site-wide footer with copyright and social links
+        */
+footer {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #0d1b2a 100%);
+    color: var(--text-light);
+    padding: 60px 0 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--secondary-color), transparent, var(--secondary-color));
+}
+
+footer a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    transition: all var(--transition-speed);
+}
+
+footer a:hover {
+    color: white;
+}
+
+footer p,
+footer li {
+    font-size: 0.92rem;
+}
+
+/* Headings */
+.footer-heading {
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.footer-logo-circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid var(--secondary-color);
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.footer-text {
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+/* Quick Links */
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 12px;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.75);
+    transition: all var(--transition-speed);
+}
+
+.footer-links a i {
+    font-size: 0.7rem;
+    color: var(--secondary-color);
+    transition: transform var(--transition-speed);
+}
+
+.footer-links a:hover {
+    color: white;
+    padding-left: 4px;
+}
+
+.footer-links a:hover i {
+    transform: translateX(3px);
+}
+
+/* Contact list */
+.footer-contact {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-contact li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.5;
+}
+
+.footer-contact li i {
+    color: var(--secondary-color);
+    margin-top: 3px;
+    width: 16px;
+    flex-shrink: 0;
+}
+
+/* Newsletter */
+.newsletter-input-group {
+    display: flex;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50px;
+    overflow: hidden;
+    transition: border-color var(--transition-speed);
+}
+
+.newsletter-input-group:focus-within {
+    border-color: var(--secondary-color);
+}
+
+.newsletter-input-group input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 12px 18px;
+    font-size: 0.9rem;
+}
+
+.newsletter-input-group input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.newsletter-input-group button {
+    background: var(--secondary-color);
+    border: none;
+    color: white;
+    width: 46px;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: background var(--transition-speed);
+}
+
+.newsletter-input-group button:hover {
+    background: white;
+    color: var(--primary-color);
+}
+
+.newsletter-msg {
+    display: block;
+    margin-top: 8px;
+    color: var(--secondary-color);
+    min-height: 16px;
+}
+
+/* Divider */
+.footer-divider {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    margin: 40px 0 25px;
+}
+
+/* Social links */
+.social-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    margin-right: 8px;
+    font-size: 0.9rem;
+    transition: all var(--transition-speed) ease;
+}
+
+.social-links a:hover {
+    background: var(--secondary-color);
+    color: white;
+    border-color: var(--secondary-color);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+    .footer-heading,
+    .footer-text,
+    .footer-links,
+    .footer-contact {
+        text-align: center;
+    }
+    .footer-links a,
+    .footer-contact li {
+        justify-content: center;
+    }
+    .social-links {
+        text-align: center;
+    }
+}
+        /* 
+        ============================================
+        RESPONSIVE MEDIA QUERIES
+        ============================================
+        Breakpoint adjustments for tablets and mobile devices
+        */
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+
+            .sport-header h2 {
+                font-size: 2rem;
+            }
+
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+
+            .guestbook-form {
+                padding: 20px;
+            }
+        }
+
+        /* 
+        ============================================
+        UTILITY CLASSES
+        ============================================
+        Reusable helper classes for spacing and alignment
+        */
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--primary-color);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* loading screen */
+        /* Full Screen Loader */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background:
+                radial-gradient(circle at center,
+                    #1e293b 0%,
+                    #0f172a 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+        }
+
+        .stadium-loader {
+            text-align: center;
+        }
+
+        .ball {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background:
+                repeating-linear-gradient(45deg,
+                    #ffffff,
+                    #ffffff 10px,
+                    #22c55e 10px,
+                    #22c55e 20px);
+            border: 5px solid #fff;
+            box-shadow:
+                0 0 20px #22c55e,
+                0 0 40px #22c55e;
+            margin: 0 auto 25px;
+            animation:
+                rotateBall 1.5s linear infinite,
+                bounceBall 0.8s ease-in-out infinite;
+        }
+
+        .stadium-loader h2 {
+            color: #fff;
+            font-size: 38px;
+            letter-spacing: 4px;
+            margin-bottom: 10px;
+            font-family: sans-serif;
+        }
+
+        .stadium-loader p {
+            color: #94a3b8;
+            margin-bottom: 25px;
+            font-size: 16px;
+        }
+
+        .progress-bar {
+            width: 320px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg,
+                    #22c55e,
+                    #84cc16);
+            animation: progressMove 3s linear forwards;
+        }
+
+        @keyframes rotateBall {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes bounceBall {
+
+            0%,
+            100% {
+                translate: 0 0;
+            }
+
+            50% {
+                translate: 0 -18px;
+            }
+        }
+
+        @keyframes progressMove {
+            from {
+                width: 0%;
+            }
+
+            to {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- loading screen -->
+    <div id="loader">
+        <div class="stadium-loader">
+            <div class="ball"></div>
+            <h2>SPORTSINFO</h2>
+            <p>Giving You all Sports Information...</p>
+
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Website Content -->
+    <div id="main-content" style="display:none;">
+        <!-- Navbar -->
+        <!-- Page Content -->
+        <!-- Footer -->
+    </div>
+
+    <!-- 
+    =============================================
+    NAVIGATION BAR COMPONENT
+    =============================================
+    Fixed-top navigation bar with responsive collapse menu
+    Implements Bootstrap's navbar component with custom branding
+    Data attributes enable automatic collapse behavior on mobile
+    ============================================= 
+    -->
+    <header>
+    <nav class="navbar navbar-expand-lg navbar-dark" id="mainNavbar">
+        <div class="container">
+            <!-- Logo and Brand Identity -->
+            <a class="navbar-brand" href="#home">
+                <div class="logo-placeholder">SI</div>
+                SportsInfo
+            </a>
+
+            <!-- Mobile Hamburger Toggle Button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Links Container -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <!-- Internal anchor links for smooth scrolling to sections -->
+                    <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#sports">Sports</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#guestbook">Guestbook</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+    <!-- 
+    =============================================
+    HERO BANNER SECTION
+    =============================================
+    Primary landing section with search functionality
+    Search input triggers real-time filtering via JavaScript
+    ============================================= 
+    -->
+    <section id="home" class="hero-section">
+        <div class="container">
+
+            <!-- crousel -->
+
+            <div id="carouselExampleCaptions" class="carousel slide">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4" aria-label="Slide 5"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="5" aria-label="Slide 6"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="6" aria-label="Slide 7"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="7" aria-label="Slide 8"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="8" aria-label="Slide 9"></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="football cro.jfif" class="d-block w-100" alt="...">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>First slide label</h5>
+        <p>Some representative placeholder content for the first slide.</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="judo cro.jfif" class="d-block w-100" alt="...">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Second slide label</h5>
+        <p>Some representative placeholder content for the second slide.</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="tennis cro.jfif" class="d-block w-100" alt="...">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Third slide label</h5>
+        <p>Some representative placeholder content for the third slide.</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="motor cro jfif.jfif" class="d-block w-100" alt="...">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Third slide label</h5>
+        <p>Some representative placeholder content for the third slide.</p>
+      </div>
+      </div>
+      <div class="carousel-item">
+      <img src="volley_cro.jpg" class="d-block w-100" alt="...     ">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Third slide label</h5>
+        <p>Some representative placeholder content for the third slide.</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="Billiards.jpg" class="d-block w-100" alt="...     ">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Third slide label</h5>
+        <p>Some representative placeholder content for the third slide.</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="Athletics (Track & Field).jpg" class="d-block w-100" alt="...     ">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Third slide label</h5>
+        <p>Some representative placeholder content for the third slide.</p>
+      </div>
+    </div>
+     <div class="carousel-item">
+      <img src="chess img.jpg" class="d-block w-100" alt="...     ">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Third slide label</h5>
+        <p>Some representative placeholder content for the third slide.</p>
+      </div>
+    </div>
+     <div class="carousel-item">
+      <img src="swimming img.jpg" class="d-block w-100" alt="...     ">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Third slide label</h5>
+        <p>Some representative placeholder content for the third slide.</p>
+      </div>
+    </div>
+     <div class="carousel-item">
+      <img src="golf img.jpg" class="d-block w-100" alt="...     ">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Third slide label</h5>
+        <p>Some representative placeholder content for the third slide.</p>
+      </div>
+    </div>
+    
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+            <h1><i class="fas fa-trophy"></i> SportsInfo</h1>
+            <p>Your Ultimate Encyclopedia for 11 Major Sports - Discover Rules, Strategies, Players & More!</p>
+
+          
+    </section>
+
+    <!-- 
+    =============================================
+    MAIN SPORTS CATALOG SECTION
+    =============================================
+    Container for all 11 sport detail cards
+    Each sport section follows identical structural pattern:
+    - Header with icon and title
+    - Information cards (Rules, Strategy, Type, Facts, Stats)
+    - Player showcase cards with modal triggers
+    ============================================= 
+    -->
+    <main id="sports">
+
+        <!-- 
+        =============================================
+        SPORT 1: FOOTBALL
+        =============================================
+        -->
+        <section class="sport-section" data-sport="football">
+            <div class="container">
+                <div class="sport-header">
+                    <i class="fas fa-futbol sport-icon"></i>
+                    <h2>Football (Soccer)</h2>
+                    <span class="badge-team">Team Sport</span>
+                </div>
+
+                <div class="row">
+                    <div class="grid-container">
+                        <!-- Rules Information Card -->
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-book"></i> Rules</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> 11 players per team on the field</li>
+                                    <li><i class="fas fa-check-circle"></i> 90 minutes match (2 halves of 45 min)</li>
+                                    <li><i class="fas fa-check-circle"></i> No hands except goalkeeper in penalty area
+                                    </li>
+                                    <li><i class="fas fa-check-circle"></i> Offside rule applies</li>
+                                    <li><i class="fas fa-check-circle"></i> Yellow and red card disciplinary system</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Strategy Information Card -->
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-chess"></i> Strategy</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Formation tactics (4-4-2, 4-3-3, 3-5-2)</li>
+                                    <li><i class="fas fa-check-circle"></i> Possession-based vs counter-attack</li>
+                                    <li><i class="fas fa-check-circle"></i> Set-piece execution</li>
+                                    <li><i class="fas fa-check-circle"></i> Pressing and defensive organization</li>
+                                    <li><i class="fas fa-check-circle"></i> Wing play and crossing strategies</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Facts & History Card -->
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-history"></i> Facts & History</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Modern rules established in England (1863)
+                                    </li>
+                                    <li><i class="fas fa-check-circle"></i> Most popular sport globally</li>
+                                    <li><i class="fas fa-check-circle"></i> FIFA World Cup every 4 years since 1930</li>
+                                    <li><i class="fas fa-check-circle"></i> Over 250 million players worldwide</li>
+                                    <li><i class="fas fa-check-circle"></i> UEFA Champions League is top club
+                                        competition</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Key Tournaments Card -->
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-trophy"></i> Key Tournaments</h4>
+                                <ul>
+                                    <li><i class="fas fa-medal"></i> FIFA World Cup</li>
+                                    <li><i class="fas fa-medal"></i> UEFA Champions League</li>
+                                    <li><i class="fas fa-medal"></i> English Premier League</li>
+                                    <li><i class="fas fa-medal"></i> Copa America</li>
+                                    <li><i class="fas fa-medal"></i> UEFA European Championship</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Statistics Card -->
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-chart-bar"></i> Statistics</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Field: 100-110m × 64-75m</li>
+                                    <li><i class="fas fa-check-circle"></i> Ball circumference: 68-70 cm</li>
+                                    <li><i class="fas fa-check-circle"></i> Goal size: 7.32m × 2.44m</li>
+                                    <li><i class="fas fa-check-circle"></i> Average goals per match: 2.7</li>
+                                    <li><i class="fas fa-check-circle"></i> Top player speed: 36+ km/h</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Player Showcase Section -->
+                    <div class="col-12">
+                        <h4 class="text-center my-4"><i class="fas fa-star"></i> Legendary Players</h4>
+                        <div class="row">
+                            <!-- 
+                            Player Card Component
+                            onclick triggers openPlayerModal() with player data
+                            JavaScript function dynamically populates modal content
+                            -->
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Lionel Messi', 'Forward', 'Argentina', '800+ goals, 7 Ballon d\'Or awards, World Cup 2022 winner, considered one of the greatest players ever.','messi.jpg')">
+                                    <div><img class="profile-img" src="messi.jpg" alt="" width="80px"></div>
+                                    <div>
+                                        <h5>Lionel Messi</h5>
+                                        <p>Argentina | Forward</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Cristiano Ronaldo', 'Forward', 'Portugal', '850+ goals, 5 Ballon d\'Or awards, 5 Champions League titles, all-time top scorer.','ronaldo.jpg')">
+                                    <div><img class="profile-img" src="ronaldo.jpg" alt="" width="80px"></div>
+                                    <div>
+                                        <h5>Cristiano Ronaldo</h5>
+                                        <p>Portugal | Forward</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Neymar Jr', 'Forward', 'Brazil', '1,283 goals, 3 World Cups (1958, 1962, 1970), FIFA Player of the Century.','neymar.jpg')">
+                                    <div><img class="profile-img" src="neymar.jpg" alt="" width="80px"></div>
+                                    <div>
+                                        <h5>Neymar Jr</h5>
+                                        <p>Brazil | Forward</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+        =============================================
+        SPORT 2: JUDO
+        =============================================
+        -->
+        <section class="sport-section" data-sport="judo">
+            <div class="container">
+                <div class="sport-header">
+                    <i class="fas fa-hand-rock sport-icon"></i>
+                    <h2>Judo</h2>
+                    <span class="badge-individual">Individual Sport</span>
+                </div>
+
+                <div class="row">
+                    <div class="grid-container">
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-book"></i> Rules</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Match duration: 4 minutes (senior men)</li>
+                                    <li><i class="fas fa-check-circle"></i> Objective: Throw opponent on back (Ippon)
+                                    </li>
+                                    <li><i class="fas fa-check-circle"></i> No strikes or kicks allowed</li>
+                                    <li><i class="fas fa-check-circle"></i> Points: Ippon, Waza-ari, Yuko</li>
+                                    <li><i class="fas fa-check-circle"></i> Groundwork (Ne-waza) submissions permitted
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-chess"></i> Strategy</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Gripping techniques (Kumi-kata)</li>
+                                    <li><i class="fas fa-check-circle"></i> Balance breaking (Kuzushi)</li>
+                                    <li><i class="fas fa-check-circle"></i> Timing and momentum exploitation</li>
+                                    <li><i class="fas fa-check-circle"></i> Transition from standing to ground</li>
+                                    <li><i class="fas fa-check-circle"></i> Counter-attack techniques</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-history"></i> Facts & History</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Created by Jigoro Kano in Japan (1882)</li>
+                                    <li><i class="fas fa-check-circle"></i> Olympic sport since 1964 (Tokyo)</li>
+                                    <li><i class="fas fa-check-circle"></i> Means "gentle way" in Japanese</li>
+                                    <li><i class="fas fa-check-circle"></i> Belt system: White to black (dan ranks)</li>
+                                    <li><i class="fas fa-check-circle"></i> Over 20 million practitioners globally</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-trophy"></i> Key Tournaments</h4>
+                                <ul>
+                                    <li><i class="fas fa-medal"></i> Olympic Games</li>
+                                    <li><i class="fas fa-medal"></i> World Judo Championships</li>
+                                    <li><i class="fas fa-medal"></i> IJF World Tour</li>
+                                    <li><i class="fas fa-medal"></i> Grand Slam tournaments</li>
+                                    <li><i class="fas fa-medal"></i> Continental Championships</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-chart-bar"></i> Statistics</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Mat size: 10m × 10m</li>
+                                    <li><i class="fas fa-check-circle"></i> Weight categories: 7 for men, 7 for women
+                                    </li>
+                                    <li><i class="fas fa-check-circle"></i> 67 official throwing techniques</li>
+                                    <li><i class="fas fa-check-circle"></i> Golden Score: Sudden death overtime</li>
+                                    <li><i class="fas fa-check-circle"></i> Judogi (uniform) weight: 650-750g</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <h4 class="text-center my-4"><i class="fas fa-star"></i> Legendary Players</h4>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Teddy Riner', 'Heavyweight', 'France', '10-time World Champion, 2-time Olympic gold medalist, undefeated streak of 154 matches.','teddy.jfif')">
+                                    <div><img class="profile-img" src="teddy.jfif" alt="" width="80px"></div>
+                                    <div>
+                                        <h5>Teddy Riner</h5>
+                                        <p>France | Heavyweight</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Ryoko Tani', 'Extra Lightweight', 'Japan', '5-time World Champion, 2 Olympic golds, 7 consecutive World titles.','ryoko.jfif')">
+                                    <div><img class="profile-img" src="ryoko.jfif" alt="" width="70px" height="110px">
+                                    </div>
+                                    <div>
+                                        <h5>Ryoko Tani</h5>
+                                        <p>Japan | Extra Lightweight</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Yasuhiro Yamashita', 'Open Weight', 'Japan', 'Olympic champion 1984, unbeaten in 203 consecutive matches, legendary competitor.','yasuhiro.jfif')">
+                                    <div><img class="profile-img" src="yasuhiro.jfif" alt="" width="90px" height="110px">
+                                    </div>
+                                    <div>
+                                        <h5>Yasuhiro Yamashita</h5>
+                                        <p>Japan | Open Weight</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+        =============================================
+        SPORT 3: TENNIS
+        =============================================
+        -->
+        <section class="sport-section" data-sport="tennis">
+            <div class="container">
+                <div class="sport-header">
+                    <i class="fas fa-table-tennis sport-icon"></i>
+                    <h2>Tennis</h2>
+                    <span class="badge-individual">Individual Sport</span>
+                </div>
+
+                <div class="row">
+                    <div class="grid-container">
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-book"></i> Rules</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Scoring: Love, 15, 30, 40, Game</li>
+                                    <li><i class="fas fa-check-circle"></i> Must win by 2 games/points margin</li>
+                                    <li><i class="fas fa-check-circle"></i> Best of 3 or 5 sets format</li>
+                                    <li><i class="fas fa-check-circle"></i> Ball must bounce once before return</li>
+                                    <li><i class="fas fa-check-circle"></i> Serve alternates every game</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-chess"></i> Strategy</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Serve and volley vs baseline game</li>
+                                    <li><i class="fas fa-check-circle"></i> Court positioning and angles</li>
+                                    <li><i class="fas fa-check-circle"></i> Spin variation (topspin, slice, flat)</li>
+                                    <li><i class="fas fa-check-circle"></i> Mental endurance and focus</li>
+                                    <li><i class="fas fa-check-circle"></i> Surface adaptation (clay, grass, hard)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-history"></i> Facts & History</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Originated in 12th century France</li>
+                                    <li><i class="fas fa-check-circle"></i> Modern rules established in 1874</li>
+                                    <li><i class="fas fa-check-circle"></i> Wimbledon is oldest tournament (1877)</li>
+                                    <li><i class="fas fa-check-circle"></i> Olympic sport since 1988</li>
+                                    <li><i class="fas fa-check-circle"></i> Grand Slam concept since 1933</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-trophy"></i> Key Tournaments</h4>
+                                <ul>
+                                    <li><i class="fas fa-medal"></i> Australian Open</li>
+                                    <li><i class="fas fa-medal"></i> French Open (Roland Garros)</li>
+                                    <li><i class="fas fa-medal"></i> Wimbledon</li>
+                                    <li><i class="fas fa-medal"></i> US Open</li>
+                                    <li><i class="fas fa-medal"></i> ATP/WTA Finals</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-chart-bar"></i> Statistics</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Court dimensions: 23.77m × 8.23m (singles)
+                                    </li>
+                                    <li><i class="fas fa-check-circle"></i> Net height: 91.4cm at center</li>
+                                    <li><i class="fas fa-check-circle"></i> Ball diameter: 6.54-6.86 cm</li>
+                                    <li><i class="fas fa-check-circle"></i> Fastest serve: 263 km/h (Sam Groth)</li>
+                                    <li><i class="fas fa-check-circle"></i> Longest match: 11 hours 5 minutes</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <h4 class="text-center my-4"><i class="fas fa-star"></i> Legendary Players</h4>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Roger Federer', 'All-Court', 'Switzerland', '20 Grand Slam titles, 310 weeks as World No.1, elegant playing style.','roger-t.jpg')">
+                                    <div><img class="profile-img" src="roger-t.jpg" alt="" width="80px"></div>
+                                    <div>
+                                        <h5>Roger Federer</h5>
+                                        <p>Switzerland | All-Court</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Serena Williams', 'Baseline Power', 'USA', '23 Grand Slam singles titles, 4 Olympic golds, dominant force in women\'s tennis.','serena-t.jfif')">
+                                    <div><img class="profile-img" src="serena-t.jfif" alt="" width="80px" height="110px">
+                                    </div>
+                                    <div>
+                                        <h5>Serena Williams</h5>
+                                        <p>USA | Baseline Power</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Rafael Nadal', 'Clay Specialist', 'Spain', '22 Grand Slams, 14 French Open titles, King of Clay, intense competitor.','rafael-t.jpg')">
+                                    <div><img class="profile-img" src="rafael-t.jpg" alt="" width="80px"></div>
+                                    <div>
+                                        <h5>Rafael Nadal</h5>
+                                        <p>Spain | Clay Specialist</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+        =============================================
+        SPORT 4: MOTORCYCLE RACING
+        =============================================
+        -->
+        <section class="sport-section" data-sport="motorcycle">
+            <div class="container">
+                <div class="sport-header">
+                    <i class="fas fa-motorcycle sport-icon"></i>
+                    <h2>Motorcycle Racing</h2>
+                    <span class="badge-individual">Individual Sport</span>
+                </div>
+
+                <div class="row">
+                    <div class="grid-container">
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-book"></i> Rules</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Riders compete on closed circuits</li>
+                                    <li><i class="fas fa-check-circle"></i> Classes: MotoGP, Moto2, Moto3</li>
+                                    <li><i class="fas fa-check-circle"></i> Points awarded by finishing position</li>
+                                    <li><i class="fas fa-check-circle"></i> Strict safety gear requirements</li>
+                                    <li><i class="fas fa-check-circle"></i> Penalties for dangerous riding</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-chess"></i> Strategy</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Tire management throughout race</li>
+                                    <li><i class="fas fa-check-circle"></i> Aerodynamic body positioning</li>
+                                    <li><i class="fas fa-check-circle"></i> Overtaking zones identification</li>
+                                    <li><i class="fas fa-check-circle"></i> Braking point optimization</li>
+                                    <li><i class="fas fa-check-circle"></i> Weather adaptation (wet/dry setup)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-history"></i> Facts & History</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> First race held in 1894 (Paris-Rouen)</li>
+                                    <li><i class="fas fa-check-circle"></i> MotoGP established in 1949</li>
+                                    <li><i class="fas fa-check-circle"></i> Bikes reach speeds over 350 km/h</li>
+                                    <li><i class="fas fa-check-circle"></i> Electronic aids regulate performance</li>
+                                    <li><i class="fas fa-check-circle"></i> Isle of Man TT: Most dangerous race</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-trophy"></i> Key Championships</h4>
+                                <ul>
+                                    <li><i class="fas fa-medal"></i> MotoGP World Championship</li>
+                                    <li><i class="fas fa-medal"></i> Superbike World Championship</li>
+                                    <li><i class="fas fa-medal"></i> Isle of Man TT</li>
+                                    <li><i class="fas fa-medal"></i> Dakar Rally</li>
+                                    <li><i class="fas fa-medal"></i> Motocross World Championship</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-chart-bar"></i> Statistics</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> MotoGP engine: 1000cc 4-stroke</li>
+                                    <li><i class="fas fa-check-circle"></i> Top speed: 356.7 km/h</li>
+                                    <li><i class="fas fa-check-circle"></i> Race distance: ~120 km</li>
+                                    <li><i class="fas fa-check-circle"></i> Lean angle: Up to 64 degrees</li>
+                                    <li><i class="fas fa-check-circle"></i> G-force in corners: 1.5-2G</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <h4 class="text-center my-4"><i class="fas fa-star"></i> Legendary Racers</h4>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Valentino Rossi', 'MotoGP', 'Italy', '9 World Championships, 115 race wins, The Doctor, legend of the sport.','valan-mr.jfif')">
+                                    <div><img class="profile-img" src="valan-mr.jfif" alt="" width="80px"></div>
+                                    <div>
+                                        <h5>Valentino Rossi</h5>
+                                        <p>Italy | MotoGP Legend</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Marc Márquez', 'MotoGP', 'Spain', '8 World Championships, aggressive riding style, youngest champion at 20.','marc-mr.jpg')">
+                                    <div><img class="profile-img" src="marc-mr.jpg" alt="" width="80px"></div>
+                                    <div>
+                                        <h5>Marc Márquez</h5>
+                                        <p>Spain | MotoGP</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Giacomo Agostini', 'Grand Prix', 'Italy', '15 World Championships, 122 Grand Prix wins, most successful racer in history.','giakomo-mr.jpg')">
+                                    <div><img class="profile-img" src="giakomo-mr.jpg" alt="" width="80px"></div>
+                                    <div>
+                                        <h5>Giacomo Agostini</h5>
+                                        <p>Italy | Grand Prix</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+        =============================================
+        SPORT 5: VOLLEYBALL
+        =============================================
+        -->
+        <section class="sport-section" data-sport="volleyball">
+            <div class="container">
+                <div class="sport-header">
+                    <i class="fas fa-volleyball-ball sport-icon"></i>
+                    <h2>Volleyball</h2>
+                    <span class="badge-team">Team Sport</span>
+                </div>
+
+                <div class="row">
+                    <div class="grid-container">
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-book"></i> Rules</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> 6 players per team on court</li>
+                                    <li><i class="fas fa-check-circle"></i> Best of 5 sets (first to 25 points)</li>
+                                    <li><i class="fas fa-check-circle"></i> Maximum 3 touches per side</li>
+                                    <li><i class="fas fa-check-circle"></i> Players rotate positions clockwise</li>
+                                    <li><i class="fas fa-check-circle"></i> Rally scoring system (point every play)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-chess"></i> Strategy</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> 5-1 or 6-2 rotation systems</li>
+                                    <li><i class="fas fa-check-circle"></i> Block formation (single, double, triple)
+                                    </li>
+                                    <li><i class="fas fa-check-circle"></i> Serve receive patterns</li>
+                                    <li><i class="fas fa-check-circle"></i> Quick attacks and combination plays</li>
+                                    <li><i class="fas fa-check-circle"></i> Defensive positioning (perimeter,
+                                        rotational)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-history"></i> Facts & History</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Invented by William Morgan in 1895</li>
+                                    <li><i class="fas fa-check-circle"></i> Originally called "Mintonette"</li>
+                                    <li><i class="fas fa-check-circle"></i> Olympic sport since 1964</li>
+                                    <li><i class="fas fa-check-circle"></i> Beach volleyball added in 1996</li>
+                                    <li><i class="fas fa-check-circle"></i> Over 800 million players globally</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-trophy"></i> Key Tournaments</h4>
+                                <ul>
+                                    <li><i class="fas fa-medal"></i> FIVB World Championship</li>
+                                    <li><i class="fas fa-medal"></i> Olympic Games</li>
+                                    <li><i class="fas fa-medal"></i> FIVB World Cup</li>
+                                    <li><i class="fas fa-medal"></i> Nations League</li>
+                                    <li><i class="fas fa-medal"></i> Continental Championships</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-chart-bar"></i> Statistics</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Court: 18m × 9m</li>
+                                    <li><i class="fas fa-check-circle"></i> Net height: 2.43m (men), 2.24m (women)</li>
+                                    <li><i class="fas fa-check-circle"></i> Ball circumference: 65-67 cm</li>
+                                    <li><i class="fas fa-check-circle"></i> Fastest spike: 132 km/h</li>
+                                    <li><i class="fas fa-check-circle"></i> Average rally length: 5-7 seconds</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <h4 class="text-center my-4"><i class="fas fa-star"></i> Legendary Players</h4>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Karch Kiraly', 'Outside Hitter', 'USA', '3 Olympic golds (indoor + beach), volleyball Hall of Fame, greatest player ever.','Karch_Kiraly_2014.jpg')">
+                                    <div><img class="profile-img" src="Karch_Kiraly_2014.jpg" alt="" width="80px"></div>
+                                    <div>
+                                        <h5>Karch Kiraly</h5>
+                                        <p>USA | Outside Hitter</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Giba', 'Outside Hitter', 'Brazil', '3 World Championships, Olympic gold 2004, over 1,900 career points.','giba-v.jpg')">
+                                    <div><img class="profile-img" src="giba-v.jpg" alt="" width="80px" grid-box>
+                                    </div>
+                                    <div>
+                                        <h5>Giba (Gilberto Godoy)</h5>
+                                        <p>Brazil | Outside Hitter</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Lang Ping', 'Outside Hitter/Coach', 'China', 'Olympic champion as player and coach, revolutionized women\'s volleyball.','lang-v.jpg')">
+                                    <div><img class="profile-img" src="lang-v.jpg" alt="" width="80px" grid-box>
+                                    </div>
+                                    <div>
+                                        <h5>Lang Ping</h5>
+                                        <p>China | Outside Hitter</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+        =============================================
+        SPORT 6: GOLF
+        =============================================
+        -->
+        <section class="sport-section" data-sport="golf">
+            <div class="container">
+                <div class="sport-header">
+                    <i class="fas fa-golf-ball sport-icon"></i>
+                    <h2>Golf</h2>
+                    <span class="badge-individual">Individual Sport</span>
+                </div>
+
+                <div class="row">
+                    <div class="grid-container">
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-book"></i> Rules</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Play ball from tee to hole in fewest strokes
+                                    </li>
+                                    <li><i class="fas fa-check-circle"></i> Standard round: 18 holes</li>
+                                    <li><i class="fas fa-check-circle"></i> Ball must be played as it lies</li>
+                                    <li><i class="fas fa-check-circle"></i> Maximum 14 clubs allowed</li>
+                                    <li><i class="fas fa-check-circle"></i> Penalties for out-of-bounds and hazards</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-chess"></i> Strategy</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Course management and club selection</li>
+                                    <li><i class="fas fa-check-circle"></i> Wind and terrain reading</li>
+                                    <li><i class="fas fa-check-circle"></i> Green reading for putting</li>
+                                    <li><i class="fas fa-check-circle"></i> Risk vs reward decision making</li>
+                                    <li><i class="fas fa-check-circle"></i> Mental game and focus maintenance</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-history"></i> Facts & History</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Modern golf originated in 15th century
+                                        Scotland</li>
+                                    <li><i class="fas fa-check-circle"></i> First 18-hole course: St Andrews (1764)</li>
+                                    <li><i class="fas fa-check-circle"></i> Olympic sport (returned 2016)</li>
+                                    <li><i class="fas fa-check-circle"></i> Over 34,000 golf courses worldwide</li>
+                                    <li><i class="fas fa-check-circle"></i> Ryder Cup: Prestigious team competition</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-trophy"></i> Major Tournaments</h4>
+                                <ul>
+                                    <li><i class="fas fa-medal"></i> The Masters</li>
+                                    <li><i class="fas fa-medal"></i> U.S. Open</li>
+                                    <li><i class="fas fa-medal"></i> The Open Championship</li>
+                                    <li><i class="fas fa-medal"></i> PGA Championship</li>
+                                    <li><i class="fas fa-medal"></i> Ryder Cup</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-chart-bar"></i> Statistics</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Par range: 3-5 strokes per hole</li>
+                                    <li><i class="fas fa-check-circle"></i> Ball diameter: 42.67 mm minimum</li>
+                                    <li><i class="fas fa-check-circle"></i> Longest drive: 515 yards (Mike Austin)</li>
+                                    <li><i class="fas fa-check-circle"></i> Hole diameter: 108 mm</li>
+                                    <li><i class="fas fa-check-circle"></i> Average course length: 6,500-7,000 yards
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <h4 class="text-center my-4"><i class="fas fa-star"></i> Legendary Players</h4>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Tiger Woods', 'Professional', 'USA', '15 Major championships, 82 PGA Tour wins, transformed modern golf.','tiger-g.jfif')">
+                                    <div><img class="profile-img" src="tiger-g.jfif" alt="" width="80px"></div>
+                                    <div>
+                                        <h5>Tiger Woods</h5>
+                                        <p>USA | Professional</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Jack Nicklaus', 'Professional', 'USA', '18 Major championships, 73 PGA Tour wins, Golden Bear, greatest golfer.','jack-g.jpg')">
+                                    <div><img class="profile-img" src="jack-g.jpg" alt="" width="80px"></div>
+                                    <div>
+                                        <h5>Jack Nicklaus</h5>
+                                        <p>USA | Professional</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Annika Sörenstam', 'Professional', 'Sweden', '10 Major championships, 72 LPGA wins, dominated women\'s golf.','annika-g.jpg')">
+                                    <div><img class="profile-img" src="annika-g.jpg" alt="" width="80px"></div>
+                                    <div>
+                                        <h5>Annika Sörenstam</h5>
+                                        <p>Sweden | Professional</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+        =============================================
+        SPORT 7: CHESS
+        =============================================
+        -->
+        <section class="sport-section" data-sport="chess">
+            <div class="container">
+                <div class="sport-header">
+                    <i class="fas fa-chess sport-icon"></i>
+                    <h2>Chess</h2>
+                    <span class="badge-individual">Individual Sport</span>
+                </div>
+
+                <div class="row">
+                    <div class="grid-container">
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-book"></i> Rules</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> 64 squares, 16 pieces per player</li>
+                                    <li><i class="fas fa-check-circle"></i> Objective: Checkmate opponent's king</li>
+                                    <li><i class="fas fa-check-circle"></i> Each piece has unique movement</li>
+                                    <li><i class="fas fa-check-circle"></i> Special moves: Castling, En passant</li>
+                                    <li><i class="fas fa-check-circle"></i> Draw conditions: Stalemate, repetition</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-chess"></i> Strategy</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Opening theory and preparation</li>
+                                    <li><i class="fas fa-check-circle"></i> Control center of the board</li>
+                                    <li><i class="fas fa-check-circle"></i> Piece development and coordination</li>
+                                    <li><i class="fas fa-check-circle"></i> Pawn structure optimization</li>
+                                    <li><i class="fas fa-check-circle"></i> Endgame technique mastery</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-history"></i> Facts & History</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Originated in India (6th century)</li>
+                                    <li><i class="fas fa-check-circle"></i> Modern rules standardized by 1880s</li>
+                                    <li><i class="fas fa-check-circle"></i> First World Champion: Wilhelm Steinitz
+                                        (1886)</li>
+                                    <li><i class="fas fa-check-circle"></i> Over 600 million players worldwide</li>
+                                    <li><i class="fas fa-check-circle"></i> Recognized as sport by IOC</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-trophy"></i> Key Tournaments</h4>
+                                <ul>
+                                    <li><i class="fas fa-medal"></i> World Chess Championship</li>
+                                    <li><i class="fas fa-medal"></i> Candidates Tournament</li>
+                                    <li><i class="fas fa-medal"></i> Chess Olympiad</li>
+                                    <li><i class="fas fa-medal"></i> Tata Steel Chess Tournament</li>
+                                    <li><i class="fas fa-medal"></i> Norway Chess</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-chart-bar"></i> Statistics</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Possible positions: 10^120</li>
+                                    <li><i class="fas fa-check-circle"></i> Average game length: 40 moves</li>
+                                    <li><i class="fas fa-check-circle"></i> Longest game: 269 moves</li>
+                                    <li><i class="fas fa-check-circle"></i> ELO rating system measures skill</li>
+                                    <li><i class="fas fa-check-circle"></i> Highest rating: 2882 (Magnus Carlsen)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <h4 class="text-center my-4"><i class="fas fa-star"></i> Legendary Players</h4>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Magnus Carlsen', 'Grandmaster', 'Norway', '5-time World Champion, highest rating ever, dominant player of modern era.','magnus-ch.jpg')">
+                                    <div><img class="profile-img" src="magnus-ch.jpg" alt="" width="80px"></div>
+                                    <div>
+                                        <h5>Magnus Carlsen</h5>
+                                        <p>Norway | Grandmaster</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Garry Kasparov', 'Grandmaster', 'Russia', 'World Champion 1985-2000, highest rating for 20 years, legendary tactician.','garry-ch.jpg')">
+                                    <div><img class="profile-img" src="garry-ch.jpg" alt="" width="80px"></div>
+                                    <div>
+                                        <h5>Garry Kasparov</h5>
+                                        <p>Russia | Grandmaster</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Bobby Fischer', 'Grandmaster', 'USA', 'World Champion 1972, ended Soviet dominance, chess prodigy and innovator.','bobby-ch.jpg')">
+                                    <div><img class="profile-img" src="bobby-ch.jpg" alt="" width="80px" grid-box>
+                                    </div>
+                                    <div>
+                                        <h5>Bobby Fischer</h5>
+                                        <p>USA | Grandmaster</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+        =============================================
+        SPORT 8: BILLIARDS
+        =============================================
+        -->
+        <section class="sport-section" data-sport="billiards">
+            <div class="container">
+                <div class="sport-header">
+                    <i class="fas fa-circle sport-icon"></i>
+                    <h2>Billiards</h2>
+                    <span class="badge-individual">Individual Sport</span>
+                </div>
+
+                <div class="row">
+                    <div class="grid-container">
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-book"></i> Rules</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Variants: Pool, Snooker, Carom</li>
+                                    <li><i class="fas fa-check-circle"></i> Pool: Pocket all designated balls</li>
+                                    <li><i class="fas fa-check-circle"></i> Snooker: Points for potting in sequence</li>
+                                    <li><i class="fas fa-check-circle"></i> Fouls result in opponent's turn</li>
+                                    <li><i class="fas fa-check-circle"></i> Cue ball must strike object ball first</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-chess"></i> Strategy</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Position play and cue ball control</li>
+                                    <li><i class="fas fa-check-circle"></i> Break patterns and shot selection</li>
+                                    <li><i class="fas fa-check-circle"></i> Safety play to limit opponent</li>
+                                    <li><i class="fas fa-check-circle"></i> Angle calculations and spin application</li>
+                                    <li><i class="fas fa-check-circle"></i> Pattern recognition and planning</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-history"></i> Facts & History</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Evolved from lawn games in 15th century</li>
+                                    <li><i class="fas fa-check-circle"></i> Snooker invented in India (1875)</li>
+                                    <li><i class="fas fa-check-circle"></i> Pool popular in USA since 1800s</li>
+                                    <li><i class="fas fa-check-circle"></i> Professional circuits established 1900s</li>
+                                    <li><i class="fas fa-check-circle"></i> Over 35 million players worldwide</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-trophy"></i> Key Tournaments</h4>
+                                <ul>
+                                    <li><i class="fas fa-medal"></i> World Snooker Championship</li>
+                                    <li><i class="fas fa-medal"></i> Mosconi Cup (Pool)</li>
+                                    <li><i class="fas fa-medal"></i> U.S. Open Nine-ball</li>
+                                    <li><i class="fas fa-medal"></i> UK Championship (Snooker)</li>
+                                    <li><i class="fas fa-medal"></i> World Pool Masters</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-chart-bar"></i> Statistics</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Snooker table: 12ft × 6ft</li>
+                                    <li><i class="fas fa-check-circle"></i> Pool table: 9ft × 4.5ft (standard)</li>
+                                    <li><i class="fas fa-check-circle"></i> Cue ball diameter: 52.5mm (snooker)</li>
+                                    <li><i class="fas fa-check-circle"></i> Maximum break (snooker): 147</li>
+                                    <li><i class="fas fa-check-circle"></i> Pocket size: 85mm (snooker)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <h4 class="text-center my-4"><i class="fas fa-star"></i> Legendary Players</h4>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Ronnie O\'Sullivan', 'Snooker', 'England', '7 World Championships, fastest 147 break (5min 8sec), The Rocket.','ronnie-b.jpg')">
+                                    <div><img class="profile-img" src="ronnie-b.jpg" alt="" width="80px" grid-box>
+                                    </div>
+                                    <div>
+                                        <h5>Ronnie O'Sullivan</h5>
+                                        <p>England | Snooker</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Efren Reyes', 'Pool', 'Philippines', 'The Magician, 2-time World Champion, greatest pool player ever.','efren-b.jpg')">
+                                    <div><img class="profile-img" src="efren-b.jpg" alt="" width="80px"></div>
+                                    <div>
+                                        <h5>Efren Reyes</h5>
+                                        <p>Philippines | Pool</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Stephen Hendry', 'Snooker', 'Scotland', '7 World Championships, 36 ranking titles, dominated 1990s.','stephen-b.jfif')">
+                                    <div><img class="profile-img" src="stephen-b.jfif" alt="" width="80px"></div>
+                                    <div>
+                                        <h5>Stephen Hendry</h5>
+                                        <p>Scotland | Snooker</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+        =============================================
+        SPORT 9: BADMINTON
+        =============================================
+        -->
+        <section class="sport-section" data-sport="badminton">
+            <div class="container">
+                <div class="sport-header">
+                    <i class="fas fa-baseball-ball sport-icon"></i>
+                    <h2>Badminton</h2>
+                    <span class="badge-individual">Individual Sport</span>
+                </div>
+
+                <div class="row">
+                    <div class="grid-container">
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-book"></i> Rules</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Rally scoring to 21 points</li>
+                                    <li><i class="fas fa-check-circle"></i> Best of 3 games format</li>
+                                    <li><i class="fas fa-check-circle"></i> Shuttlecock must be hit before ground</li>
+                                    <li><i class="fas fa-check-circle"></i> Singles and doubles variants</li>
+                                    <li><i class="fas fa-check-circle"></i> Service alternates on point win</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-chess"></i> Strategy</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Court positioning and movement</li>
+                                    <li><i class="fas fa-check-circle"></i> Deceptive shot selection</li>
+                                    <li><i class="fas fa-check-circle"></i> Net play and drop shots</li>
+                                    <li><i class="fas fa-check-circle"></i> Stamina and speed management</li>
+                                    <li><i class="fas fa-check-circle"></i> Smash power vs placement</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-history"></i> Facts & History</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Originated in British India (1870s)</li>
+                                    <li><i class="fas fa-check-circle"></i> Named after Badminton House (England)</li>
+                                    <li><i class="fas fa-check-circle"></i> Olympic sport since 1992</li>
+                                    <li><i class="fas fa-check-circle"></i> Fastest racquet sport (smash: 493 km/h)</li>
+                                    <li><i class="fas fa-check-circle"></i> Over 220 million active players</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-trophy"></i> Key Tournaments</h4>
+                                <ul>
+                                    <li><i class="fas fa-medal"></i> BWF World Championships</li>
+                                    <li><i class="fas fa-medal"></i> All England Open</li>
+                                    <li><i class="fas fa-medal"></i> Olympic Games</li>
+                                    <li><i class="fas fa-medal"></i> Thomas Cup (Men's Team)</li>
+                                    <li><i class="fas fa-medal"></i> Uber Cup (Women's Team)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-chart-bar"></i> Statistics</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Court: 13.4m × 6.1m (doubles)</li>
+                                    <li><i class="fas fa-check-circle"></i> Net height: 1.55m at edges</li>
+                                    <li><i class="fas fa-check-circle"></i> Shuttlecock weight: 4.74-5.50g</li>
+                                    <li><i class="fas fa-check-circle"></i> Fastest smash: 493 km/h</li>
+                                    <li><i class="fas fa-check-circle"></i> Longest rally: 108 strokes</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <h4 class="text-center my-4"><i class="fas fa-star"></i> Legendary Players</h4>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Lin Dan', 'Singles', 'China', '2 Olympic golds, 5 World Championships, Super Dan, greatest male player.','lin-dan-bd.jpg')">
+                                    <div><img class="profile-img" src="lin-dan-bd.jpg" alt="" width="80px"
+                                            height="110px"></div>
+                                    <div>
+                                        <h5>Lin Dan</h5>
+                                        <p>China | Singles</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Lee Chong Wei', 'Singles', 'Malaysia', '3 Olympic silvers, 349 weeks as World No.1, legendary rival of Lin Dan.','lee-chong-bd.jpg')">
+                                    <div><img class="profile-img" src="lee-chong-bd.jpg" alt="" width="80px"></div>
+                                    <div>
+                                        <h5>Lee Chong Wei</h5>
+                                        <p>Malaysia | Singles</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Saina Nehwal', 'Singles', 'India', 'Olympic bronze, World No.1, first Indian to win Olympic medal in badminton.','saina-bd.jfif')">
+                                    <div><img class="profile-img" src="saina-bd.jfif" alt="" width="80px" height="110px">
+                                    </div>
+                                    <div>
+                                        <h5>Saina Nehwal</h5>
+                                        <p>India | Singles</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+        =============================================
+        SPORT 10: SWIMMING
+        =============================================
+        -->
+        <section class="sport-section" data-sport="swimming">
+            <div class="container">
+                <div class="sport-header">
+                    <i class="fas fa-swimmer sport-icon"></i>
+                    <h2>Swimming</h2>
+                    <span class="badge-individual">Individual Sport</span>
+                </div>
+
+                <div class="row">
+                    <div class="grid-container">
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-book"></i> Rules</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Four strokes: Freestyle, Backstroke,
+                                        Breaststroke, Butterfly</li>
+                                    <li><i class="fas fa-check-circle"></i> Races from 50m to 1500m</li>
+                                    <li><i class="fas fa-check-circle"></i> Swimmers must touch wall on turns</li>
+                                    <li><i class="fas fa-check-circle"></i> False start results in disqualification</li>
+                                    <li><i class="fas fa-check-circle"></i> Lane assignment by qualifying times</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-chess"></i> Strategy</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Pace management across distance</li>
+                                    <li><i class="fas fa-check-circle"></i> Breathing rhythm optimization</li>
+                                    <li><i class="fas fa-check-circle"></i> Turn efficiency and underwaters</li>
+                                    <li><i class="fas fa-check-circle"></i> Stroke technique refinement</li>
+                                    <li><i class="fas fa-check-circle"></i> Race strategy (negative split, even pace)
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-history"></i> Facts & History</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Ancient practice dating back millennia</li>
+                                    <li><i class="fas fa-check-circle"></i> Modern Olympic sport since 1896</li>
+                                    <li><i class="fas fa-check-circle"></i> Women's events added in 1912</li>
+                                    <li><i class="fas fa-check-circle"></i> FINA founded in 1908</li>
+                                    <li><i class="fas fa-check-circle"></i> Over 100 Olympic swimming events</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-trophy"></i> Key Tournaments</h4>
+                                <ul>
+                                    <li><i class="fas fa-medal"></i> Olympic Games</li>
+                                    <li><i class="fas fa-medal"></i> FINA World Championships</li>
+                                    <li><i class="fas fa-medal"></i> World Cup Series</li>
+                                    <li><i class="fas fa-medal"></i> Commonwealth Games</li>
+                                    <li><i class="fas fa-medal"></i> Pan Pacific Championships</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-chart-bar"></i> Statistics</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Olympic pool: 50m × 25m</li>
+                                    <li><i class="fas fa-check-circle"></i> Lane width: 2.5m</li>
+                                    <li><i class="fas fa-check-circle"></i> Water temperature: 25-28°C</li>
+                                    <li><i class="fas fa-check-circle"></i> World record 50m free: 20.91s (men)</li>
+                                    <li><i class="fas fa-check-circle"></i> Depth requirement: 2m minimum</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <h4 class="text-center my-4"><i class="fas fa-star"></i> Legendary Swimmers</h4>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Michael Phelps', 'Multiple Events', 'USA', '23 Olympic golds, 28 total medals, most decorated Olympian ever.','michael-sw.jpg')">
+                                    <div><img class="profile-img" src="michael-sw.jpg" alt="" width="80px"></div>
+                                    <div>
+                                        <h5>Michael Phelps</h5>
+                                        <p>USA | Multiple Events</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Katie Ledecky', 'Distance Freestyle', 'USA', '7 Olympic golds, 21 World Championship golds, distance swimming legend.','katie-sw.jpg')">
+                                    <div><img class="profile-img" src="katie-sw.jpg" alt="" width="80px" height="110px">
+                                    </div>
+                                    <div>
+                                        <h5>Katie Ledecky</h5>
+                                        <p>USA | Distance Freestyle</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Mark Spitz', 'Multiple Events', 'USA', '9 Olympic golds, 7 golds at 1972 Olympics, pioneer of modern swimming.','mark-sw.jpg')">
+                                    <div><img class="profile-img" src="mark-sw.jpg" alt="" width="80px" height="110px">
+                                    </div>
+                                    <div>
+                                        <h5>Mark Spitz</h5>
+                                        <p>USA | Multiple Events</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+        =============================================
+        SPORT 11: ATHLETICS (TRACK & FIELD)
+        =============================================
+        -->
+        <section class="sport-section" data-sport="athletics">
+            <div class="container">
+                <div class="sport-header">
+                    <i class="fas fa-running sport-icon"></i>
+                    <h2>Athletics (Track & Field)</h2>
+                    <span class="badge-individual">Individual Sport</span>
+                </div>
+
+                <div class="row">
+                    <div class="grid-container">
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-book"></i> Rules</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Track events: Sprints, middle, long distance
+                                    </li>
+                                    <li><i class="fas fa-check-circle"></i> Field events: Jumps and throws</li>
+                                    <li><i class="fas fa-check-circle"></i> Lanes assigned for races up to 400m</li>
+                                    <li><i class="fas fa-check-circle"></i> Three attempts for field events (six for
+                                        finals)</li>
+                                    <li><i class="fas fa-check-circle"></i> False start = disqualification</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-chess"></i> Strategy</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Pacing and energy distribution</li>
+                                    <li><i class="fas fa-check-circle"></i> Starting block technique</li>
+                                    <li><i class="fas fa-check-circle"></i> Wind utilization in field events</li>
+                                    <li><i class="fas fa-check-circle"></i> Lane positioning tactics</li>
+                                    <li><i class="fas fa-check-circle"></i> Mental preparation and visualization</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-history"></i> Facts & History</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Ancient Olympics (776 BC) featured running
+                                    </li>
+                                    <li><i class="fas fa-check-circle"></i> Modern athletics since 1896 Olympics</li>
+                                    <li><i class="fas fa-check-circle"></i> Jesse Owens' 1936 Olympic dominance</li>
+                                    <li><i class="fas fa-check-circle"></i> IAAF founded in 1912 (now World Athletics)
+                                    </li>
+                                    <li><i class="fas fa-check-circle"></i> Most universal sporting discipline</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-trophy"></i> Key Tournaments</h4>
+                                <ul>
+                                    <li><i class="fas fa-medal"></i> Olympic Games</li>
+                                    <li><i class="fas fa-medal"></i> World Athletics Championships</li>
+                                    <li><i class="fas fa-medal"></i> Diamond League</li>
+                                    <li><i class="fas fa-medal"></i> Continental Championships</li>
+                                    <li><i class="fas fa-medal"></i> World Indoor Championships</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid-box">
+                            <div class="info-card">
+                                <h4><i class="fas fa-chart-bar"></i> Statistics</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Standard track: 400m oval</li>
+                                    <li><i class="fas fa-check-circle"></i> 100m WR: 9.58s (Usain Bolt)</li>
+                                    <li><i class="fas fa-check-circle"></i> High jump WR: 2.45m (Javier Sotomayor)</li>
+                                    <li><i class="fas fa-check-circle"></i> Long jump WR: 8.95m (Mike Powell)</li>
+                                    <li><i class="fas fa-check-circle"></i> Marathon distance: 42.195 km</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <h4 class="text-center my-4"><i class="fas fa-star"></i> Legendary Athletes</h4>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Usain Bolt', 'Sprinter', 'Jamaica', '8 Olympic golds, 100m & 200m WR holder, fastest man ever.','bolt-at.jpg')">
+                                    <div><img class="profile-img" src="bolt-at.jpg" alt="" width="80px"></div>
+                                    <div>
+                                        <h5>Usain Bolt</h5>
+                                        <p>Jamaica | Sprinter</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Florence Griffith-Joyner', 'Sprinter', 'USA', '3 Olympic golds (1988), 100m & 200m WR holder, Flo-Jo.','florence-at.jpg')">
+                                    <div><img class="profile-img" src="florence-at.jpg" alt="" width="80px" grid-box></div>
+                                    <div>
+                                        <h5>Florence Griffith-Joyner</h5>
+                                        <p>USA | Sprinter</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="player-card"
+                                    onclick="openPlayerModal('Carl Lewis', 'Sprints & Long Jump', 'USA', '9 Olympic golds, dominated 1980s-90s, 4 consecutive long jump golds.',
+'carl-at.jpg')">
+                                    <div><img class="profile-img" src="carl-at.jpg" alt="" width="80px" grid-box>
+                                    </div>
+                                    <div>
+                                        <h5>Carl Lewis</h5>
+                                        <p>USA | Sprints & Long Jump</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 
+    =============================================
+    GUESTBOOK FORM SECTION
+    =============================================
+    User feedback collection interface
+    Form submission handled by JavaScript to prevent page reload
+    Validates inputs and displays confirmation message
+    ============================================= 
+    -->
+    <section id="guestbook" class="guestbook-section">
+        <div class="container">
+            <h2 class="section-title text-white mb-5">
+                <i class="fas fa-book-open"></i> Guestbook - Share Your Feedback
+            </h2>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="guestbook-form">
+                        <!-- 
+                        Form element with onsubmit handler
+                        Prevents default submission and triggers custom validation
+                        -->
+                        <form id="guestbookForm" onsubmit="handleGuestbookSubmit(event)">
+                            <div class="row">
+                                <!-- Full Name Input -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="fullName" class="form-label">
+                                        <i class="fas fa-user"></i> Full Name *
+                                    </label>
+                                    <input type="text" class="form-control" id="fullName" required
+                                        placeholder="Enter your full name">
+                                </div>
+
+                                <!-- Email Input with validation -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label">
+                                        <i class="fas fa-envelope"></i> Email Address *
+                                    </label>
+                                    <input type="email" class="form-control" id="email" required
+                                        placeholder="your.email@example.com">
+                                </div>
+
+                                <!-- Date Picker -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="visitDate" class="form-label">
+                                        <i class="fas fa-calendar"></i> Date of Visit *
+                                    </label>
+                                    <input type="date" class="form-control" id="visitDate" required>
+                                </div>
+
+                                <!-- Address Input -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="address" class="form-label">
+                                        <i class="fas fa-map-marker-alt"></i> Address
+                                    </label>
+                                    <input type="text" class="form-control" id="address" placeholder="City, Country">
+                                </div>
+
+                                <!-- Textarea for Comments -->
+                                <div class="col-12 mb-3">
+                                    <label for="comments" class="form-label">
+                                        <i class="fas fa-comments"></i> Comments/Suggestions *
+                                    </label>
+                                    <textarea class="form-control" id="comments" rows="4" required
+                                        placeholder="Share your experience with SportsInfo..."></textarea>
+                                </div>
+
+                                <!-- Radio Button Group for Recommendations -->
+                                <div class="col-12 mb-3">
+                                    <label class="form-label d-block">
+                                        <i class="fas fa-thumbs-up"></i> Would you recommend SportsInfo? *
+                                    </label>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="recommendation" id="recYes"
+                                            value="yes" required>
+                                        <label class="form-check-label" for="recYes">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="recommendation" id="recNo"
+                                            value="no">
+                                        <label class="form-check-label" for="recNo">No</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="recommendation" id="recMaybe"
+                                            value="maybe">
+                                        <label class="form-check-label" for="recMaybe">Maybe</label>
+                                    </div>
+                                </div>
+
+                                <!-- Dropdown for Site Rating -->
+                                <div class="col-md-6 mb-4">
+                                    <label for="rating" class="form-label">
+                                        <i class="fas fa-star"></i> Rate Our Website *
+                                    </label>
+                                    <select class="form-select" id="rating" required>
+                                        <option value="">Choose rating...</option>
+                                        <option value="1">1 - Excellent</option>
+                                        <option value="2">2 - Good</option>
+                                        <option value="3">3 - Average</option>
+                                        <option value="4">4 - Poor</option>
+                                    </select>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn btn-submit">
+                                        <i class="fas fa-paper-plane"></i> Submit Feedback
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <!-- Success Message (hidden by default) -->
+                        <div id="successMessage" class="alert alert-success mt-4 hidden">
+                            <i class="fas fa-check-circle"></i>
+                            Thank you for your feedback! Your response has been recorded.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 
+    =============================================
+    ABOUT US SECTION
+    =============================================
+    Corporate information and company values display
+    ============================================= 
+    -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <h2 class="section-title">
+                <i class="fas fa-building"></i> About Infocom
+            </h2>
+
+            <div class="row mb-5">
+                <div class="col-lg-8 mx-auto text-center">
+                    <p class="lead">
+                        Infocom is a leading digital solutions provider specializing in sports information
+                        systems and educational platforms. Established in 2010, we are committed to delivering
+                        comprehensive, accurate, and engaging sports content to enthusiasts worldwide.
+                    </p>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Mission Card -->
+                <div class="col-md-4 mb-4">
+                    <div class="about-card">
+                        <i class="fas fa-bullseye"></i>
+                        <h4>Our Mission</h4>
+                        <p>
+                            To democratize sports knowledge by providing free, accessible, and detailed
+                            information about diverse sporting disciplines to users globally.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Vision Card -->
+                <div class="col-md-4 mb-4">
+                    <div class="about-card">
+                        <i class="fas fa-eye"></i>
+                        <h4>Our Vision</h4>
+                        <p>
+                            To become the world's most trusted sports encyclopedia, fostering a deeper
+                            appreciation and understanding of athletic excellence.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Values Card -->
+                <div class="col-md-4 mb-4">
+                    <div class="about-card">
+                        <i class="fas fa-heart"></i>
+                        <h4>Our Values</h4>
+                        <p>
+                            Accuracy, Accessibility, Innovation, User-Centricity, and Passion for Sports
+                            guide every aspect of our platform development.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-5">
+                <div class="col-lg-10 mx-auto">
+                    <div class="info-card">
+                        <h4><i class="fas fa-info-circle"></i> What We Offer</h4>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Comprehensive coverage of 11 major sports
+                                disciplines</li>
+                            <li><i class="fas fa-check-circle"></i> Detailed rules, strategies, and historical context
+                            </li>
+                            <li><i class="fas fa-check-circle"></i> Profiles of legendary athletes and their
+                                achievements</li>
+                            <li><i class="fas fa-check-circle"></i> Real-time search functionality for quick information
+                                access</li>
+                            <li><i class="fas fa-check-circle"></i> User engagement through feedback and guestbook
+                                features</li>
+                            <li><i class="fas fa-check-circle"></i> Mobile-responsive design for on-the-go access</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 
+    =============================================
+    CONTACT US SECTION
+    =============================================
+    Corporate contact information with mailto integration
+    ============================================= 
+    -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2 class="section-title">
+                <i class="fas fa-envelope-open-text"></i> Contact Us
+            </h2>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="contact-card">
+                        <h4 class="mb-4 text-center">Get in Touch with Infocom</h4>
+
+                        <div class="row">
+                            <!-- Corporate Address -->
+                            <div class="col-md-6 mb-3">
+                                <div class="contact-item">
+                                    <i class="fas fa-map-marked-alt"></i>
+                                    <div>
+                                        <strong>Corporate Headquarters</strong><br>
+                                        Infocom Solutions Pvt. Ltd.<br>
+                                        Tech Park, Silicon Valley<br>
+                                        Bangalore - 560001, India
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Phone Number -->
+                            <div class="col-md-6 mb-3">
+                                <div class="contact-item">
+                                    <i class="fas fa-phone-alt"></i>
+                                    <div>
+                                        <strong>Phone</strong><br>
+                                        +91 80 1234 5678<br>
+                                        +91 80 8765 4321 (Support)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 
+                            Email with mailto link
+                            Opens default mail client on user's device
+                            -->
+                            <div class="col-md-6 mb-3">
+                                <div class="contact-item">
+                                    <i class="fas fa-envelope"></i>
+                                    <div>
+                                        <strong>Email</strong><br>
+                                        <a href="mailto:info@sportsinfo.com">info@sportsinfo.com</a><br>
+                                        <a href="mailto:support@sportsinfo.com">support@sportsinfo.com</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Business Hours -->
+                            <div class="col-md-6 mb-3">
+                                <div class="contact-item">
+                                    <i class="fas fa-clock"></i>
+                                    <div>
+                                        <strong>Business Hours</strong><br>
+                                        Monday - Friday: 9:00 AM - 6:00 PM<br>
+                                        Saturday: 10:00 AM - 2:00 PM
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Website URL -->
+                            <div class="col-12 mb-3">
+                                <div class="contact-item">
+                                    <i class="fas fa-globe"></i>
+                                    <div>
+                                        <strong>Website</strong><br>
+                                        <a href="https://www.sportsinfo.com" target="_blank">www.sportsinfo.com</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Call-to-Action for Email -->
+                        <div class="text-center mt-4">
+                            <a href="mailto:info@sportsinfo.com?subject=Inquiry from SportsInfo Website"
+                                class="btn btn-submit">
+                                <i class="fas fa-paper-plane"></i> Send us an Email
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 
+    =============================================
+    FOOTER COMPONENT
+    =============================================
+    Site-wide footer with copyright and social media links
+    ============================================= 
+    -->
+<footer>
+    <div class="container">
+        <div class="row gy-4">
+            <!-- Brand / About -->
+            <div class="col-lg-4 col-md-6">
+                <h5 class="footer-heading">
+                    <span class="footer-logo-circle">SI</span> SportsInfo
+                </h5>
+                <p class="footer-text">
+                    Your one-stop platform for sports updates, community guestbook,
+                    and everything in between. Built with passion for the game.
+                </p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="col-lg-2 col-md-6">
+                <h5 class="footer-heading">Quick Links</h5>
+                <ul class="footer-links">
+                    <li><a href="#home"><i class="fas fa-chevron-right me-1"></i> Home</a></li>
+                    <li><a href="#sports"><i class="fas fa-chevron-right me-1"></i> Sports</a></li>
+                    <li><a href="#guestbook"><i class="fas fa-chevron-right me-1"></i> Guestbook</a></li>
+                    <li><a href="#about"><i class="fas fa-chevron-right me-1"></i> About Us</a></li>
+                    <li><a href="#contact"><i class="fas fa-chevron-right me-1"></i> Contact</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="col-lg-3 col-md-6">
+                <h5 class="footer-heading">Contact Us</h5>
+                <ul class="footer-contact">
+                    <li>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>123 Stadium Road, Karachi, Pakistan</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-envelope"></i>
+                        <span>info@sportsinfo.com</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-phone-alt"></i>
+                        <span>+92 300 1234567</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-globe"></i>
+                        <span>www.sportsinfo.com</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Newsletter -->
+            <div class="col-lg-3 col-md-6">
+                <h5 class="footer-heading">Newsletter</h5>
+                <p class="footer-text">Subscribe to get the latest sports updates straight to your inbox.</p>
+                <form class="newsletter-form" id="newsletterForm">
+                    <div class="newsletter-input-group">
+                        <input type="email" class="form-control" placeholder="Your email address" required>
+                        <button type="submit" aria-label="Subscribe">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <small class="newsletter-msg" id="newsletterMsg"></small>
+                </form>
+            </div>
+        </div>
+
+        <hr class="footer-divider">
+
+        <div class="row align-items-center">
+            <div class="col-md-6 text-md-start text-center mb-3 mb-md-0">
+                <p class="mb-0">
+                    &copy; 2024 <strong>SportsInfo</strong> by <a href="#about">Infocom Solutions</a>.
+                    All Rights Reserved.
+                </p>
+            </div>
+            <div class="col-md-6 text-md-end text-center">
+                <p class="mb-0">
+                    Designed for Educational Excellence | College eProject 2024
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <!-- 
+    =============================================
+    PLAYER MODAL COMPONENT
+    =============================================
+    Bootstrap modal for displaying detailed player information
+    Content populated dynamically via JavaScript
+    ============================================= 
+    -->
+    <div class="modal fade" id="playerModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="playerModalLabel">
+                        <i class="fas fa-user-circle"></i> Player Profile
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Content injected by JavaScript -->
+                    <div class="text-center mb-3">
+    <img id="modalPlayerImage"
+         src=""
+         alt="Player"
+         class="img-fluid rounded"
+         style="width:120px;height:150px;object-fit:cover;">
+</div>
+                    <h4 class="text-center mb-3" id="modalPlayerName"></h4>
+                    <div class="modal-stat">
+                        <strong>Position/Category:</strong>
+                        <span id="modalPlayerPosition"></span>
+                    </div>
+                    <div class="modal-stat">
+                        <strong>Nationality:</strong>
+                        <span id="modalPlayerCountry"></span>
+                    </div>
+                    <div class="modal-stat">
+                        <strong>Achievements & Bio:</strong>
+                        <p id="modalPlayerBio" class="mt-2"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+    =============================================
+    EXTERNAL JAVASCRIPT DEPENDENCIES
+    =============================================
+    Bootstrap 5 Bundle includes Popper.js for dropdown/modal functionality
+    ============================================= 
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- 
+    =============================================
+    CUSTOM JAVASCRIPT LOGIC
+    =============================================
+    Application-specific functionality for search, modals, and form handling
+    ============================================= 
+    -->
+    <script>
+        /**
+         * ==========================================
+         * LIVE SEARCH FILTER FUNCTION
+         * ==========================================
+         * Purpose: Filters sport sections in real-time based on user input
+         * Mechanism: Compares search query against section data-sport attributes
+         * and text content within each section
+         * 
+         * Algorithm:
+         * 1. Capture user input and convert to lowercase
+         * 2. Select all sport sections from DOM
+         * 3. Iterate through each section
+         * 4. Check if section's data-sport or text content matches query
+         * 5. Show/hide sections based on match result
+         * 
+         * Performance: O(n) where n = number of sport sections
+         */
+        function filterSports() {
+            // Get the search input value and normalize to lowercase for case-insensitive matching
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+
+            // Select all sport section elements using CSS attribute selector
+            const sportSections = document.querySelectorAll('.sport-section');
+
+            // Iterate through each sport section
+            sportSections.forEach(section => {
+                // Extract the data-sport attribute value (e.g., "football", "tennis")
+                const sportName = section.getAttribute('data-sport').toLowerCase();
+
+                // Get all text content within the section for comprehensive search
+                const sectionText = section.textContent.toLowerCase();
+
+                // Check if search query matches either sport name or any text within section
+                if (sportName.includes(searchQuery) || sectionText.includes(searchQuery)) {
+                    // Display section if match found
+                    section.style.display = 'block';
+                } else {
+                    // Hide section if no match
+                    section.style.display = 'none';
+                }
+            });
+        }
+
+        /**
+         * ==========================================
+         * PLAYER MODAL DISPLAY FUNCTION
+         * ==========================================
+         * Purpose: Populates and displays modal with player details
+         * Parameters: 
+         *   - name: Player's full name
+         *   - position: Playing position or category
+         *   - country: Nationality
+         *   - bio: Detailed achievements and biography
+         * 
+         * Process:
+         * 1. Receives player data as function arguments
+         * 2. Selects modal DOM elements by ID
+         * 3. Injects data into modal content areas
+         * 4. Triggers Bootstrap modal display
+         */
+        function openPlayerModal(name, position, country, bio, image) {
+
+    document.getElementById('modalPlayerName').textContent = name;
+    document.getElementById('modalPlayerPosition').textContent = position;
+    document.getElementById('modalPlayerCountry').textContent = country;
+    document.getElementById('modalPlayerBio').textContent = bio;
+
+    // Image set karein
+    document.getElementById('modalPlayerImage').src = image;
+    document.getElementById('modalPlayerImage').alt = name;
+
+    const playerModal = new bootstrap.Modal(
+        document.getElementById('playerModal')
+    );
+    playerModal.show();
+}
+
+        /**
+         * ==========================================
+         * GUESTBOOK FORM SUBMISSION HANDLER
+         * ==========================================
+         * Purpose: Processes guestbook form submission with validation
+         * Parameters: event - Form submission event object
+         * 
+         * Workflow:
+         * 1. Prevents default form submission (page reload)
+         * 2. Extracts form data from input fields
+         * 3. Constructs data object for potential backend submission
+         * 4. Logs data to console (for demonstration purposes)
+         * 5. Displays success message to user
+         * 6. Resets form fields
+         * 
+         * Note: In production, this would include AJAX call to backend API
+         */
+        function handleGuestbookSubmit(event) {
+            // Prevent default form submission behavior (prevents page refresh)
+            event.preventDefault();
+
+            // Extract form data using getElementById for each input
+            const formData = {
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                visitDate: document.getElementById('visitDate').value,
+                address: document.getElementById('address').value,
+                comments: document.getElementById('comments').value,
+                // Get selected radio button value for recommendation
+                recommendation: document.querySelector('input[name="recommendation"]:checked').value,
+                rating: document.getElementById('rating').value
+            };
+
+            // Log form data to browser console for debugging/verification
+            console.log('Guestbook Submission:', formData);
+
+            // Display success message by removing 'hidden' class
+            const successMsg = document.getElementById('successMessage');
+            successMsg.classList.remove('hidden');
+
+            // Reset the form to clear all input fields
+            document.getElementById('guestbookForm').reset();
+
+            // Auto-hide success message after 5 seconds for better UX
+            setTimeout(() => {
+                successMsg.classList.add('hidden');
+            }, 5000);
+
+            // In production environment, add AJAX submission:
+            // fetch('/api/guestbook', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify(formData)
+            // }).then(response => response.json())
+            //   .then(data => console.log('Success:', data));
+        }
+
+        /**
+         * ==========================================
+         * SMOOTH SCROLL ENHANCEMENT
+         * ==========================================
+         * Purpose: Ensures smooth scrolling for navbar links
+         * Mechanism: Event delegation on navbar links
+         * 
+         * Applied only to internal anchor links (href starting with #)
+         * Adjusts scroll position to account for fixed navbar height
+         */
+        document.querySelectorAll('.navbar-nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                // Prevent default anchor click behavior
+                e.preventDefault();
+
+                // Get target section ID from href attribute
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+
+                if (targetSection) {
+                    // Calculate scroll position accounting for fixed navbar
+                    const navbarHeight = document.querySelector('.navbar').offsetHeight;
+                    const targetPosition = targetSection.offsetTop - navbarHeight;
+
+                    // Smooth scroll to calculated position
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        /**
+         * ==========================================
+         * NAVBAR SCROLL EFFECT
+         * ==========================================
+         * Purpose: Adds shadow to navbar on scroll for visual depth
+         * Trigger: Window scroll event
+         * Threshold: 50 pixels from top
+         */
+        window.addEventListener('scroll', function () {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)';
+            } else {
+                navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+            }
+        });
+    </script>
+    <!-- screen loading -->
+    <script>
+        window.addEventListener("load", function () {
+
+            setTimeout(() => {
+                document.getElementById("loader").style.opacity = "0";
+                document.getElementById("loader").style.transition = "0.6s";
+
+                setTimeout(() => {
+                    document.getElementById("loader").style.display = "none";
+                    document.getElementById("main-content").style.display = "block";
+                }, 600);
+
+            }, 3000);
+
+        });
+    </script>
+
+</body>
+
+</html>
+somthing.html
+Displaying somthing.html.
+sportsinfo.html
+Displaying sportsinfo.html.
+sportsinfo.html
+Displaying sportsinfo.html.
