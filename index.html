@@ -1,0 +1,1867 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="description" content="SportsInfo - Comprehensive Sports Encyclopedia by Infocom" />
+  <title>SportsInfo - Your Ultimate Sports Encyclopedia</title>
+
+  <style>
+    /* =========================================================
+       SPORTSINFO - COMPLETE SPORTY THEME
+       HTML + CSS + JS in one file. No CDN required.
+       ========================================================= */
+
+    :root {
+      --dark: #06111f;
+      --dark-2: #0b1f33;
+      --green: #00d084;
+      --green-2: #087f3f;
+      --orange: #ff3d00;
+      --yellow: #ffc400;
+      --blue: #00a3ff;
+      --white: #ffffff;
+      --muted: #64748b;
+      --light: #f2f7f4;
+      --card: rgba(255, 255, 255, .94);
+      --shadow: 0 18px 45px rgba(6, 17, 31, .14);
+      --radius: 24px;
+      --transition: .28s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: #112033;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(0, 208, 132, .16), transparent 28%),
+        radial-gradient(circle at 90% 10%, rgba(255, 61, 0, .12), transparent 26%),
+        linear-gradient(180deg, #f7fff9 0%, #eef7f1 45%, #f8fafc 100%);
+      overflow-x: hidden;
+      line-height: 1.65;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      opacity: .045;
+      pointer-events: none;
+      background-image:
+        linear-gradient(90deg, #06111f 1px, transparent 1px),
+        linear-gradient(#06111f 1px, transparent 1px);
+      background-size: 46px 46px;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Loader */
+    #loader {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at center, rgba(0, 208, 132, .22), transparent 28%),
+        linear-gradient(135deg, #06111f, #020711 76%);
+      transition: opacity .6s ease, visibility .6s ease;
+    }
+
+    #loader.hide {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .stadium-loader {
+      text-align: center;
+      color: #fff;
+    }
+
+    .ball {
+      width: 118px;
+      height: 118px;
+      margin: 0 auto 22px;
+      border-radius: 50%;
+      border: 5px solid #fff;
+      background:
+        radial-gradient(circle at 50% 50%, #fff 0 8%, transparent 9%),
+        repeating-linear-gradient(45deg, #fff 0 10px, var(--green) 10px 20px);
+      box-shadow: 0 0 28px var(--green), 0 0 60px rgba(0, 208, 132, .55);
+      animation: spin 1.3s linear infinite, bounce .75s ease-in-out infinite;
+    }
+
+    .stadium-loader h2 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      letter-spacing: 5px;
+    }
+
+    .stadium-loader p {
+      color: #b7c4d2;
+      margin: 7px 0 24px;
+    }
+
+    .progress-track {
+      width: min(320px, 82vw);
+      height: 9px;
+      margin: auto;
+      border-radius: 99px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, .14);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--green), var(--yellow), var(--orange));
+      animation: fill 2.3s linear forwards;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes bounce {
+      50% {
+        translate: 0 -16px;
+      }
+    }
+
+    @keyframes fill {
+      to {
+        width: 100%;
+      }
+    }
+
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 14px 0;
+      background: linear-gradient(135deg, rgba(6, 17, 31, .96), rgba(6, 53, 31, .94), rgba(8, 127, 63, .94));
+      border-bottom: 3px solid var(--green);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .28);
+      transition: var(--transition);
+      backdrop-filter: blur(14px);
+    }
+
+    .navbar.scrolled {
+      padding: 9px 0;
+      box-shadow: 0 15px 42px rgba(0, 0, 0, .36);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: #fff;
+      font-weight: 900;
+      font-size: 1.45rem;
+      letter-spacing: .4px;
+    }
+
+    .logo {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--green), var(--yellow));
+      color: var(--dark);
+      border: 3px solid #fff;
+      box-shadow: 0 0 0 6px rgba(0, 208, 132, .16), 0 0 28px rgba(0, 208, 132, .45);
+      font-weight: 1000;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      display: inline-block;
+      color: rgba(255, 255, 255, .86);
+      padding: 10px 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .7px;
+      font-size: .86rem;
+      position: relative;
+      transition: var(--transition);
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 4px;
+      width: 0;
+      height: 3px;
+      border-radius: 3px;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, var(--green), var(--yellow), var(--orange));
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--green);
+      transform: translateY(-2px);
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+      width: 72%;
+    }
+
+    .menu-btn {
+      display: none;
+      border: 0;
+      color: #fff;
+      background: rgba(255, 255, 255, .1);
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      padding: 120px 0 80px;
+      color: #fff;
+      display: grid;
+      align-items: center;
+      overflow: hidden;
+      background:
+        linear-gradient(rgba(3, 8, 16, .78), rgba(3, 8, 16, .72)),
+        radial-gradient(circle at 20% 20%, rgba(0, 208, 132, .35), transparent 30%),
+        linear-gradient(135deg, #06111f 0%, #095f33 58%, #06111f 100%);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: .12;
+      background-image:
+        linear-gradient(90deg, transparent 49%, #fff 50%, transparent 51%),
+        radial-gradient(circle at center, transparent 0 92px, #fff 94px 96px, transparent 98px);
+      background-size: 260px 100%, 320px 320px;
+      background-position: center, center;
+    }
+
+    .hero-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 38px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 208, 132, .16);
+      border: 1px solid rgba(0, 208, 132, .35);
+      padding: 8px 14px;
+      border-radius: 99px;
+      font-weight: 800;
+      color: var(--green);
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 8vw, 6.2rem);
+      line-height: .96;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 0 5px 0 rgba(0, 0, 0, .22), 0 0 34px rgba(0, 208, 132, .35);
+      margin-bottom: 18px;
+    }
+
+    .hero h1 span {
+      color: var(--yellow);
+    }
+
+    .hero p {
+      font-size: clamp(1.05rem, 2vw, 1.3rem);
+      color: #d8e6ef;
+      max-width: 660px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      border: 0;
+      cursor: pointer;
+      border-radius: 999px;
+      padding: 13px 22px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .7px;
+      transition: var(--transition);
+    }
+
+    .btn-primary {
+      color: var(--dark);
+      background: linear-gradient(135deg, var(--green), var(--yellow));
+      box-shadow: 0 12px 26px rgba(0, 208, 132, .25);
+    }
+
+    .btn-secondary {
+      color: #fff;
+      background: rgba(255, 255, 255, .1);
+      border: 1px solid rgba(255, 255, 255, .2);
+    }
+
+    .btn:hover {
+      transform: translateY(-4px);
+      filter: saturate(1.15);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 26px;
+    }
+
+    .stat-pill {
+      min-width: 120px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, .1);
+      border: 1px solid rgba(255, 255, 255, .14);
+      backdrop-filter: blur(8px);
+    }
+
+    .stat-pill strong {
+      display: block;
+      color: var(--green);
+      font-size: 1.6rem;
+      line-height: 1;
+    }
+
+    .stat-pill small {
+      color: #cbd5e1;
+      font-weight: 700;
+    }
+
+    /* Slider */
+    .slider {
+      position: relative;
+      border-radius: 30px;
+      overflow: hidden;
+      border: 5px solid rgba(255, 255, 255, .16);
+      box-shadow: 0 26px 80px rgba(0, 0, 0, .46);
+      background: #06111f;
+    }
+
+    .slide {
+      display: none;
+      min-height: 440px;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .slide.active {
+      display: block;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 440px;
+      object-fit: cover;
+      filter: saturate(1.14) contrast(1.06);
+    }
+
+    .slide.no-image {
+      display: none;
+    }
+
+    .slide-bg {
+      height: 440px;
+      display: grid;
+      place-items: center;
+      background: var(--gradient);
+      font-size: 6rem;
+    }
+
+    .slide-caption {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 22px;
+      padding: 18px 20px;
+      border-radius: 20px;
+      background: rgba(4, 11, 20, .68);
+      border: 1px solid rgba(255, 255, 255, .16);
+      backdrop-filter: blur(10px);
+    }
+
+    .slide-caption h3 {
+      color: var(--green);
+      font-size: 1.35rem;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+    }
+
+    .slider-controls {
+      display: flex;
+      justify-content: space-between;
+      position: absolute;
+      inset: 50% 14px auto;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    .slider-controls button {
+      pointer-events: auto;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 0;
+      background: rgba(0, 208, 132, .88);
+      color: var(--dark);
+      font-size: 1.4rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .dots {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 8px;
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .dots button {
+      width: 9px;
+      height: 9px;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .42);
+      cursor: pointer;
+    }
+
+    .dots button.active {
+      width: 24px;
+      border-radius: 99px;
+      background: var(--green);
+    }
+
+    /* Search */
+    .search-panel {
+      margin-top: -35px;
+      position: relative;
+      z-index: 5;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #fff;
+      padding: 12px 16px;
+      border-radius: 999px;
+      box-shadow: var(--shadow);
+      border: 2px solid rgba(0, 208, 132, .24);
+      max-width: 760px;
+      margin: auto;
+    }
+
+    .search-box span {
+      font-size: 1.35rem;
+    }
+
+    .search-box input {
+      border: 0;
+      outline: 0;
+      width: 100%;
+      font-size: 1rem;
+      padding: 8px;
+      color: #112033;
+    }
+
+    .search-box:focus-within {
+      border-color: var(--green);
+      box-shadow: 0 0 0 5px rgba(0, 208, 132, .12), var(--shadow);
+    }
+
+    /* Sections */
+    section {
+      scroll-margin-top: 90px;
+    }
+
+    .section {
+      padding: 90px 0;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-title .kicker {
+      color: var(--orange);
+      font-weight: 1000;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    .section-title h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--dark);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .section-title h2::after {
+      content: "";
+      display: block;
+      width: 110px;
+      height: 5px;
+      border-radius: 99px;
+      margin: 12px auto 0;
+      background: linear-gradient(90deg, var(--green), var(--yellow), var(--orange));
+    }
+
+    .section-title p {
+      color: var(--muted);
+      max-width: 720px;
+      margin: 14px auto 0;
+    }
+
+    /* Sports */
+    .sport-section {
+      position: relative;
+      padding: 70px 0;
+    }
+
+    .sport-wrap {
+      position: relative;
+      border-radius: 34px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, .92), rgba(237, 250, 242, .92));
+      box-shadow: 0 18px 50px rgba(6, 17, 31, .08);
+      padding: clamp(22px, 4vw, 42px);
+      overflow: hidden;
+    }
+
+    .sport-wrap::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: .07;
+      background-image: repeating-linear-gradient(90deg, transparent 0 70px, var(--green) 70px 72px);
+      pointer-events: none;
+    }
+
+    .sport-head {
+      position: relative;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .sport-icon {
+      width: 86px;
+      height: 86px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 50%;
+      margin-bottom: 14px;
+      background: linear-gradient(135deg, var(--green), var(--yellow));
+      box-shadow: 0 14px 32px rgba(0, 208, 132, .34);
+      font-size: 2.4rem;
+    }
+
+    .sport-head h3 {
+      font-size: clamp(1.8rem, 3vw, 2.55rem);
+      text-transform: uppercase;
+      color: var(--dark);
+    }
+
+    .badge {
+      display: inline-flex;
+      margin-top: 9px;
+      padding: 7px 16px;
+      border-radius: 99px;
+      color: #fff;
+      text-transform: uppercase;
+      font-weight: 900;
+      font-size: .82rem;
+      letter-spacing: .7px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, .12);
+    }
+
+    .badge.team {
+      background: linear-gradient(135deg, var(--green-2), var(--green));
+      color: var(--dark);
+    }
+
+    .badge.individual {
+      background: linear-gradient(135deg, var(--orange), #ff8a00);
+    }
+
+    .info-grid {
+      position: relative;
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .info-card {
+      width: 30%;
+      position: relative;
+      overflow: hidden;
+      min-height: 100%;
+      padding: 22px;
+      border-radius: 20px;
+      background: var(--card);
+      border: 1px solid rgba(0, 208, 132, .17);
+      border-top: 5px solid var(--green);
+      box-shadow: 0 12px 30px rgba(6, 17, 31, .09);
+      transition: var(--transition);
+    }
+
+    .info-card::before {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      right: -48px;
+      top: -48px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 208, 132, .18), transparent 68%);
+    }
+
+    .info-card:hover {
+      transform: translateY(-8px);
+      border-top-color: var(--orange);
+      box-shadow: 0 20px 46px rgba(6, 17, 31, .16);
+    }
+
+    .info-card h4 {
+      color: #07351f;
+      font-size: 1.05rem;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .info-card ul {
+      list-style: none;
+    }
+
+    .info-card li {
+      padding: 7px 0;
+      border-bottom: 1px solid rgba(15, 23, 42, .07);
+      font-size: .93rem;
+    }
+
+    .info-card li:last-child {
+      border-bottom: 0;
+    }
+
+    .info-card li::before {
+      content: "✓";
+      color: var(--green);
+      font-weight: 1000;
+      margin-right: 8px;
+    }
+
+    .legend-title {
+      position: relative;
+      text-align: center;
+      margin: 34px 0 18px;
+      color: var(--dark);
+      text-transform: uppercase;
+      letter-spacing: .8px;
+    }
+
+    .players-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .player-card {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, .96), rgba(235, 255, 243, .95));
+      border: 1px solid rgba(0, 208, 132, .18);
+      border-left: 6px solid var(--orange);
+      box-shadow: 0 12px 28px rgba(6, 17, 31, .1);
+      transition: var(--transition);
+    }
+
+    .player-card:hover {
+      transform: translateY(-8px) scale(1.015);
+      border-left-color: var(--green);
+      box-shadow: 0 18px 42px rgba(6, 17, 31, .16);
+    }
+
+    .player-img {
+      width: 88px;
+      height: 102px;
+      flex: 0 0 88px;
+      object-fit: cover;
+      border-radius: 18px;
+      border: 3px solid #fff;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, .2);
+      background: linear-gradient(135deg, var(--dark), var(--green-2));
+    }
+
+    .player-fallback {
+      width: 88px;
+      height: 102px;
+      flex: 0 0 88px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      border: 3px solid #fff;
+      color: #fff;
+      font-size: 2.2rem;
+      background: linear-gradient(135deg, var(--dark), var(--green-2));
+      box-shadow: 0 10px 24px rgba(0, 0, 0, .2);
+    }
+
+    .player-card h5 {
+      color: var(--dark);
+      font-size: 1.02rem;
+      line-height: 1.2;
+    }
+
+    .player-card p {
+      color: var(--muted);
+      font-weight: 800;
+      font-size: .9rem;
+    }
+
+    /* Guestbook */
+    .guestbook {
+      color: #fff;
+      background: linear-gradient(rgba(6, 17, 31, .9), rgba(6, 17, 31, .82)), linear-gradient(135deg, #087f3f, #06111f);
+    }
+
+    .guestbook .section-title h2,
+    .guestbook .section-title p {
+      color: #fff;
+    }
+
+    .form-card {
+      max-width: 880px;
+      margin: auto;
+      background: #fff;
+      color: #112033;
+      padding: clamp(22px, 4vw, 40px);
+      border-radius: 28px;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, .26);
+      border: 1px solid rgba(0, 208, 132, .22);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      font-weight: 900;
+      color: var(--dark);
+      margin-bottom: 7px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      border: 2px solid #e2e8f0;
+      outline: 0;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font: inherit;
+      transition: var(--transition);
+      background: #fff;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 4px rgba(0, 208, 132, .14);
+    }
+
+    .radio-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .radio-row label {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin: 0;
+      font-weight: 800;
+    }
+
+    .radio-row input {
+      width: auto;
+    }
+
+    .success {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      color: #064e3b;
+      background: #d1fae5;
+      border: 1px solid #86efac;
+      font-weight: 800;
+    }
+
+    /* About + Contact */
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .about-card,
+    .contact-card {
+      background: #fff;
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(0, 208, 132, .14);
+      transition: var(--transition);
+    }
+
+    .about-card:hover,
+    .contact-card:hover {
+      transform: translateY(-6px);
+    }
+
+    .about-card .big-icon {
+      font-size: 2.8rem;
+      margin-bottom: 10px;
+    }
+
+    .about-card h3 {
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+
+    .offer-card {
+      margin-top: 22px;
+    }
+
+    .offer-card ul {
+      list-style: none;
+      columns: 2;
+    }
+
+    .offer-card li {
+      padding: 7px 0;
+      break-inside: avoid;
+    }
+
+    .offer-card li::before {
+      content: "🏅";
+      margin-right: 8px;
+    }
+
+    .contact-grid {
+      max-width: 900px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .contact-item {
+      display: flex;
+      gap: 15px;
+      padding: 18px;
+      border-radius: 18px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      transition: var(--transition);
+    }
+
+    .contact-item:hover {
+      background: linear-gradient(135deg, #06351f, var(--green-2));
+      color: #fff;
+      transform: translateY(-4px);
+    }
+
+    .contact-item .ci {
+      font-size: 1.8rem;
+    }
+
+    .contact-item strong {
+      display: block;
+      color: inherit;
+    }
+
+    /* Footer */
+    footer {
+      color: #dbe8ef;
+      padding: 60px 0 28px;
+      background: linear-gradient(rgba(3, 8, 16, .96), rgba(3, 8, 16, .98)), radial-gradient(circle at top left, rgba(0, 208, 132, .24), transparent 35%);
+      border-top: 5px solid;
+      border-image: linear-gradient(90deg, var(--green), var(--yellow), var(--orange), var(--green)) 1;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.35fr .7fr 1fr 1fr;
+      gap: 28px;
+    }
+
+    .footer h3,
+    footer h3 {
+      color: #fff;
+      margin-bottom: 14px;
+    }
+
+    .footer-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.25rem;
+      font-weight: 1000;
+      color: #fff;
+      margin-bottom: 14px;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: #cbd5e1;
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: var(--green);
+      padding-left: 4px;
+    }
+
+    .social {
+      display: flex;
+      gap: 9px;
+      margin-top: 18px;
+    }
+
+    .social a {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .12);
+      transition: var(--transition);
+    }
+
+    .social a:hover {
+      background: linear-gradient(135deg, var(--green), var(--yellow));
+      color: var(--dark);
+      transform: translateY(-4px);
+    }
+
+    .newsletter {
+      display: flex;
+      overflow: hidden;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, .16);
+      background: rgba(255, 255, 255, .08);
+      margin-top:20px;
+    }
+
+    .newsletter input {
+      border: 0;
+      background: transparent;
+      color: #fff;
+      border-radius: 0;
+    }
+
+    .newsletter button {
+      width: 48px;
+      border: 0;
+      background: var(--green);
+      color: var(--dark);
+      font-weight: 1000;
+      cursor: pointer;
+    }
+
+    .copyright {
+      margin-top: 36px;
+      padding-top: 22px;
+      border-top: 1px solid rgba(255, 255, 255, .14);
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      color: #b6c4d1;
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      display: none;
+      place-items: center;
+      padding: 18px;
+      background: rgba(2, 6, 12, .74);
+      backdrop-filter: blur(8px);
+    }
+
+    .modal-backdrop.show {
+      display: grid;
+    }
+
+    .modal {
+      width: min(520px, 100%);
+      background: #fff;
+      border-radius: 26px;
+      overflow: hidden;
+      box-shadow: 0 32px 90px rgba(0, 0, 0, .42);
+      animation: pop .22s ease;
+    }
+
+    @keyframes pop {
+      from {
+        transform: scale(.96) translateY(10px);
+        opacity: 0;
+      }
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 22px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--dark), var(--green-2));
+      border-bottom: 4px solid var(--green);
+    }
+
+    .modal-head button {
+      border: 0;
+      background: rgba(255, 255, 255, .12);
+      color: #fff;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.25rem;
+    }
+
+    .modal-body {
+      padding: 26px;
+    }
+
+    .modal-img {
+      width: 128px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 20px;
+      margin: 0 auto 14px;
+      border: 4px solid #fff;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, .18);
+      background: linear-gradient(135deg, var(--dark), var(--green-2));
+    }
+
+    .modal-body h3 {
+      text-align: center;
+      color: var(--dark);
+      margin-bottom: 14px;
+    }
+
+    .modal-stat {
+      background: #f8fafc;
+      padding: 14px;
+      border-radius: 16px;
+      border-left: 5px solid var(--green);
+      margin-top: 10px;
+    }
+
+    .modal-stat strong {
+      color: var(--green-2);
+    }
+
+    /* Responsive */
+    @media (max-width: 1100px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 820px) {
+      .menu-btn {
+        display: block;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: calc(100% + 10px);
+        left: 16px;
+        right: 16px;
+        display: none;
+        flex-direction: column;
+        padding: 14px;
+        border-radius: 20px;
+        background: rgba(6, 17, 31, .96);
+        border: 1px solid rgba(255, 255, 255, .12);
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links a {
+        width: 100%;
+        text-align: center;
+      }
+
+      .slide,
+      .slide img,
+      .slide-bg {
+        min-height: 320px;
+        height: 320px;
+      }
+
+      .info-grid,
+      .players-grid,
+      .about-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .offer-card ul {
+        columns: 1;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .container {
+        width: min(100% - 22px, 1180px);
+      }
+
+      .info-card {
+    width: 100%;
+  }
+
+      .hero {
+        padding-top: 105px;
+      }
+
+      .slide,
+      .slide img,
+      .slide-bg {
+        min-height: 245px;
+        height: 245px;
+      }
+
+      .slide-caption {
+        left: 12px;
+        right: 12px;
+        bottom: 18px;
+        padding: 12px;
+      }
+
+      .sport-wrap {
+        border-radius: 24px;
+        padding: 18px;
+      }
+
+      .player-card {
+        align-items: flex-start;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .copyright {
+        text-align: center;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="loader">
+    <div class="stadium-loader">
+      <div class="ball"></div>
+      <h2>SPORTSINFO</h2>
+      <p>Loading your sports encyclopedia...</p>
+      <div class="progress-track">
+        <div class="progress-fill"></div>
+      </div>
+    </div>
+  </div>
+
+  <header class="navbar" id="navbar">
+    <div class="container nav-inner">
+      <img class="site-logo" src="./site-logo-removebg-preview.png" alt="Site Logo" width="170">
+      <button class="menu-btn" id="menuBtn" aria-label="Open Menu">☰</button>
+      <ul class="nav-links" id="navLinks">
+        <li><a class="active" href="#home">Home</a></li>
+        <li><a href="#sports">Sports</a></li>
+        <li><a href="#guestbook">Guestbook</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <section class="hero" id="home">
+    <div class="container hero-grid">
+      <div>
+        <div class="eyebrow">🏟️ Ultimate Sports Encyclopedia</div>
+        <h1>Sports<span>Info</span></h1>
+        <p>Explore rules, strategies, legendary players, tournaments, facts and statistics for 11 major sports in one
+          modern sporty platform.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#sports">⚡ Explore Sports</a>
+          <a class="btn btn-secondary" href="#guestbook">💬 Give Feedback</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-pill"><strong>11</strong><small>Sports</small></div>
+          <div class="stat-pill"><strong>55+</strong><small>Info Cards</small></div>
+          <div class="stat-pill"><strong>33</strong><small>Legends</small></div>
+        </div>
+      </div>
+
+      <div class="slider" id="slider">
+        <div class="slider-controls">
+          <button id="prevSlide" aria-label="Previous">‹</button>
+          <button id="nextSlide" aria-label="Next">›</button>
+        </div>
+        <div class="dots" id="dots"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="search-panel">
+    <div class="container">
+      <div class="search-box">
+        <span>🔎</span>
+        <input type="search" id="searchInput" placeholder="Search sports, rules, players, tournaments..." />
+      </div>
+    </div>
+  </div>
+
+  <main id="sports" class="section">
+    <div class="container">
+      <div class="section-title">
+        <div class="kicker">Sports Catalog</div>
+        <h2>Choose Your Game</h2>
+        <p>Every sport section includes rules, strategies, facts, tournaments, statistics and legendary athletes.</p>
+      </div>
+    </div>
+    <div id="sportsContainer"></div>
+  </main>
+
+  <section class="section guestbook" id="guestbook">
+    <div class="container">
+      <div class="section-title">
+        <div class="kicker">Guestbook</div>
+        <h2>Share Your Feedback</h2>
+        <p>Tell us how we can improve SportsInfo for sports fans and students.</p>
+      </div>
+      <div class="form-card">
+        <form id="guestbookForm">
+          <div class="form-grid">
+            <div class="field"><label for="fullName">Full Name *</label><input id="fullName" type="text"
+                placeholder="Enter your full name" required /></div>
+            <div class="field"><label for="email">Email Address *</label><input id="email" type="email"
+                placeholder="your.email@example.com" required /></div>
+            <div class="field"><label for="visitDate">Date of Visit *</label><input id="visitDate" type="date"
+                required /></div>
+            <div class="field"><label for="address">Address</label><input id="address" type="text"
+                placeholder="City, Country" /></div>
+            <div class="field full"><label for="comments">Comments / Suggestions *</label><textarea id="comments"
+                placeholder="Share your experience with SportsInfo..." required></textarea></div>
+            <div class="field full">
+              <label>Would you recommend SportsInfo? *</label>
+              <div class="radio-row">
+                <label><input type="radio" name="recommendation" value="Yes" required /> Yes</label>
+                <label><input type="radio" name="recommendation" value="No" /> No</label>
+                <label><input type="radio" name="recommendation" value="Maybe" /> Maybe</label>
+              </div>
+            </div>
+            <div class="field"><label for="rating">Rate Our Website *</label><select id="rating" required>
+                <option value="">Choose rating...</option>
+                <option>Excellent</option>
+                <option>Good</option>
+                <option>Average</option>
+                <option>Poor</option>
+              </select></div>
+            <div class="field" style="display:flex;align-items:end;"><button class="btn btn-primary" type="submit"
+                style="width:100%;">🚀 Submit Feedback</button></div>
+          </div>
+        </form>
+        <div id="successMessage" class="success hidden">✅ Thank you! Your feedback has been recorded.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <div class="container">
+      <div class="section-title">
+        <div class="kicker">About Infocom</div>
+        <h2>Built For Sports Learning</h2>
+        <p>SportsInfo.com is an informative sports website developed under Infocom, a multinational company known for
+          creating knowledge-based platforms like CellInfo.com (for mobile phone information) and LibertyElectronics.com
+          (for electronics products). Following the same mission, SportsInfo.com provides users with complete and
+          reliable information about different sports, including news, updates, player details, and statistics, making
+          it a one-stop platform for sports lovers.</p>
+      </div>
+      <div class="about-grid">
+        <div class="about-card">
+          <div class="big-icon">🎯</div>
+          <h3>Our Mission</h3>
+          <p>To democratize sports knowledge with free, clear and detailed information for users worldwide.</p>
+        </div>
+        <div class="about-card">
+          <div class="big-icon">👁️</div>
+          <h3>Our Vision</h3>
+          <p>To become a trusted sports encyclopedia that inspires appreciation for athletic excellence.</p>
+        </div>
+        <div class="about-card">
+          <div class="big-icon">💚</div>
+          <h3>Our Values</h3>
+          <p>Accuracy, accessibility, innovation, user-first design and passion for sports guide our work.</p>
+        </div>
+      </div>
+      <div class="about-card offer-card">
+        <h3>What We Offer</h3>
+        <ul>
+          <li>Coverage of 11 major sports disciplines</li>
+          <li>Rules, strategies and historical context</li>
+          <li>Profiles of legendary athletes</li>
+          <li>Fast live search for quick access</li>
+          <li>User engagement through guestbook</li>
+          <li>Fully responsive sporty design</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="section-title">
+        <div class="kicker">Contact</div>
+        <h2>Get In Touch</h2>
+        <p>Questions, suggestions or project inquiries? Contact SportsInfo by Infocom.</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item ">
+          <div class="ci">📍</div>
+          <div><strong>Address</strong>Aptech Computer Education North Karachi, Pakistan</div>
+        </div>
+        <div class="contact-item">
+          <div class="ci">📞</div>
+          <div><strong>Phone</strong>+92 300 1234567</div>
+        </div>
+        <div class="contact-item">
+          <div class="ci">✉️</div>
+          <div><strong>Email</strong><a href="#"><span class="__cf_email__">hellow@gmail.com</span></a><br><a
+              href="#"><span class="__cf_email__">hellow@aptech.com</span></a></div>
+        </div>
+        <div class="contact-item">
+          <div class="ci">🌐</div>
+          <div><strong>Website</strong><a href="https://www.sportsinfo.com" target="_blank">www.sportsinfo.com</a></div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:28px;"><a class="btn btn-primary"
+          href="/cdn-cgi/l/email-protection#462f282029063536293432352f2820296825292b793533242c2325327b0f2837332f343f662034292b661536293432350f28202966112324352f3223">📨
+          Send Email</a></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <img class="site-logo" src="./site-logo-removebg-preview.png" alt="Site Logo" width="170"
+            style="margin-bottom:20px;">
+          <p>Your one-stop platform for sports information, legendary players, community feedback and educational
+            excellence.</p>
+          <div class="social"><a href="#">f</a><a href="#">𝕏</a><a href="#">◎</a><a href="#">in</a><a href="#">▶</a>
+          </div>
+        </div>
+        <div>
+          <h3>Quick Links</h3>
+          <ul class="footer-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#sports">Sports</a></li>
+            <li><a href="#guestbook">Guestbook</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Contact</h3>
+          <p>📍 Karachi, Pakistan</p>
+          <p style="margin:10px 0;">✉️ <a href="/cdn-cgi/l/email-protection" class="__cf_email__"
+              data-cfemail="a8c1c6cec7e8dbd8c7dadcdbc1c6cec786cbc7c5">hellow@gmail.com</a></p>
+          <p>📞 +92 300 1234567</p>
+        </div>
+        <div>
+          <h3>Newsletter</h3>
+          <p>Subscribe for latest sports updates.</p>
+          <form class="newsletter" id="newsletterForm"><input type="email" placeholder="Your email"
+              required><button>➤</button></form>
+          <small id="newsletterMsg" style="display:block;margin-top:8px;color:var(--green);"></small>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>© 2026 <strong>SportsInfo</strong> by Infocom Solutions. All Rights Reserved.</p>
+        <p>Designed for Educational Excellence</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal" role="dialog" aria-modal="true">
+      <div class="modal-head">
+        <h3>🏆 Player Profile</h3><button id="closeModal">×</button>
+      </div>
+      <div class="modal-body">
+        <img id="modalImg" class="modal-img" src="" alt="Player" />
+        <h3 id="modalName"></h3>
+        <div class="modal-stat"><strong>Position / Category:</strong> <span id="modalPosition"></span></div>
+        <div class="modal-stat"><strong>Nationality:</strong> <span id="modalCountry"></span></div>
+        <div class="modal-stat"><strong>Achievements & Bio:</strong>
+          <p id="modalBio" style="margin-top:8px;"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+  <script>
+    const slides = [
+      { title: "Football", text: "Teamwork, tactics and world-class passion.", img: "football-img.jpg", icon: "⚽", gradient: "linear-gradient(135deg,#064e3b,#00d084)" },
+      { title: "Tennis", text: "Power, precision and mental endurance.", img: "tennis cro.jfif", icon: "🎾", gradient: "linear-gradient(135deg,#365314,#84cc16)" },
+      { title: "Judo", text: "Balance, timing and the gentle way.", img: "judo cro.jfif", icon: "🥋", gradient: "linear-gradient(135deg,#1e293b,#0ea5e9)" },
+      { title: "Motorcycle Racing", text: "Speed, lean angles and fearless control.", img: "motor cro jfif.jfif", icon: "🏍️", gradient: "linear-gradient(135deg,#111827,#ff3d00)" },
+      { title: "Swimming", text: "Technique, stamina and water speed.", img: "swimming img.jpg", icon: "🏊", gradient: "linear-gradient(135deg,#075985,#38bdf8)" }
+    ];
+
+    const sports = [
+      {
+        name: "Football (Soccer)", key: "football", icon: "⚽", type: "Team Sport",
+        cards: {
+          "📘 Rules": ["11 players per team on the field", "90 minutes match with two 45-minute halves", "No hands except goalkeeper in penalty area", "Offside rule applies", "Yellow and red card disciplinary system"],
+          "♟️ Strategy": ["Formation tactics such as 4-4-2 and 4-3-3", "Possession-based play or counter-attack", "Set-piece execution", "Pressing and defensive organization", "Wing play and crossing strategies"],
+          "📜 Facts & History": ["Modern rules established in England in 1863", "Most popular sport globally", "FIFA World Cup every 4 years since 1930", "Over 250 million players worldwide", "UEFA Champions League is a top club competition"],
+          "🏆 Key Tournaments": ["FIFA World Cup", "UEFA Champions League", "English Premier League", "Copa America", "UEFA European Championship"],
+          "📊 Statistics": ["Field: 100-110m × 64-75m", "Ball circumference: 68-70 cm", "Goal size: 7.32m × 2.44m", "Average goals per match around 2.7", "Top player speed can exceed 36 km/h"]
+        },
+        players: [
+          ["Lionel Messi", "Forward", "Argentina", "800+ goals, 8 Ballon d'Or awards, World Cup 2022 winner and one of football's greatest players.", "messi.jpg"],
+          ["Cristiano Ronaldo", "Forward", "Portugal", "850+ goals, 5 Ballon d'Or awards, 5 Champions League titles and an all-time top scorer.", "ronaldo.jpg"],
+          ["Neymar Jr", "Forward", "Brazil", "Brazilian superstar known for flair, creativity, dribbling and major club achievements.", "neymar.jpg"]
+        ]
+      },
+      {
+        name: "Judo", key: "judo", icon: "🥋", type: "Individual Sport",
+        cards: {
+          "📘 Rules": ["Senior match duration is usually 4 minutes", "Objective is to throw opponent on back for Ippon", "No strikes or kicks allowed", "Scoring includes Ippon and Waza-ari", "Groundwork submissions are permitted"],
+          "♟️ Strategy": ["Gripping techniques called Kumi-kata", "Balance breaking called Kuzushi", "Timing and momentum exploitation", "Transition from standing to ground", "Counter-attack techniques"],
+          "📜 Facts & History": ["Created by Jigoro Kano in Japan in 1882", "Olympic sport since Tokyo 1964", "Means gentle way in Japanese", "Uses belt ranking system", "Practiced worldwide by millions"],
+          "🏆 Key Tournaments": ["Olympic Games", "World Judo Championships", "IJF World Tour", "Grand Slam tournaments", "Continental Championships"],
+          "📊 Statistics": ["Mat size: 10m × 10m", "Seven weight categories for men and women", "67 official throwing techniques", "Golden Score sudden death overtime", "Judogi weight around 650-750g"]
+        },
+        players: [
+          ["Teddy Riner", "Heavyweight", "France", "Multiple-time world champion and Olympic gold medalist with a historic unbeaten streak.", "teddy.jfif"],
+          ["Ryoko Tani", "Extra Lightweight", "Japan", "Japanese legend with world titles and Olympic gold medals.", "ryoko.jfif"],
+          ["Yasuhiro Yamashita", "Open Weight", "Japan", "Olympic champion and legendary judoka known for an unbeaten 203-match run.", "yasuhiro.jfif"]
+        ]
+      },
+      {
+        name: "Tennis", key: "tennis", icon: "🎾", type: "Individual Sport",
+        cards: {
+          "📘 Rules": ["Scoring: Love, 15, 30, 40 and Game", "Must win games or points by two margin", "Best of 3 or 5 sets format", "Ball must land inside court boundaries", "Serve alternates every game"],
+          "♟️ Strategy": ["Serve and volley or baseline game", "Court positioning and angles", "Spin variation such as topspin and slice", "Mental endurance and focus", "Adaptation to clay, grass and hard courts"],
+          "📜 Facts & History": ["Originated from early European racket games", "Modern rules established in the 19th century", "Wimbledon is the oldest tournament", "Olympic sport in the modern era", "Grand Slam is the sport's elite achievement"],
+          "🏆 Key Tournaments": ["Australian Open", "French Open", "Wimbledon", "US Open", "ATP/WTA Finals"],
+          "📊 Statistics": ["Singles court: 23.77m × 8.23m", "Net height: 91.4cm at center", "Ball diameter: 6.54-6.86 cm", "Fastest serves exceed 260 km/h", "Longest pro match lasted over 11 hours"]
+        },
+        players: [
+          ["Roger Federer", "All-Court", "Switzerland", "20 Grand Slam titles, elegant style and one of the most beloved champions.", "roger-t.jpg"],
+          ["Serena Williams", "Baseline Power", "USA", "23 Grand Slam singles titles and a dominant force in women's tennis.", "serena-t.jfif"],
+          ["Rafael Nadal", "Clay Specialist", "Spain", "22 Grand Slams and record dominance at the French Open.", "rafael-t.jpg"]
+        ]
+      },
+      {
+        name: "Motorcycle Racing", key: "motorcycle", icon: "🏍️", type: "Individual Sport",
+        cards: {
+          "📘 Rules": ["Riders compete on closed circuits", "Classes include MotoGP, Moto2 and Moto3", "Points awarded by finishing position", "Strict safety gear requirements", "Penalties for dangerous riding"],
+          "♟️ Strategy": ["Tire management throughout race", "Aerodynamic body positioning", "Overtaking zone identification", "Braking point optimization", "Wet and dry setup adaptation"],
+          "📜 Facts & History": ["Early motorcycle races began in the late 1800s", "MotoGP championship dates to 1949", "Bikes can reach over 350 km/h", "Electronic aids regulate performance", "Isle of Man TT is famously dangerous"],
+          "🏆 Key Championships": ["MotoGP World Championship", "Superbike World Championship", "Isle of Man TT", "Dakar Rally", "Motocross World Championship"],
+          "📊 Statistics": ["MotoGP engine: 1000cc 4-stroke", "Top speeds exceed 350 km/h", "Race distance around 120 km", "Lean angle can exceed 60 degrees", "Corners can generate high G-force"]
+        },
+        players: [
+          ["Valentino Rossi", "MotoGP", "Italy", "9 world championships, 115 race wins and known as The Doctor.", "valan-mr.jfif"],
+          ["Marc Márquez", "MotoGP", "Spain", "Multiple world champion famous for aggressive riding style.", "marc-mr.jpg"],
+          ["Giacomo Agostini", "Grand Prix", "Italy", "15 world championships and one of the most successful motorcycle racers.", "giakomo-mr.jpg"]
+        ]
+      },
+      {
+        name: "Volleyball", key: "volleyball", icon: "🏐", type: "Team Sport",
+        cards: {
+          "📘 Rules": ["6 players per team on court", "Best of 5 sets", "Maximum 3 touches per side", "Players rotate clockwise", "Rally scoring system"],
+          "♟️ Strategy": ["5-1 or 6-2 rotation systems", "Single, double or triple blocks", "Serve receive patterns", "Quick attacks and combination plays", "Defensive court positioning"],
+          "📜 Facts & History": ["Invented by William Morgan in 1895", "Originally called Mintonette", "Olympic sport since 1964", "Beach volleyball added in 1996", "Played by hundreds of millions globally"],
+          "🏆 Key Tournaments": ["FIVB World Championship", "Olympic Games", "FIVB World Cup", "Nations League", "Continental Championships"],
+          "📊 Statistics": ["Court: 18m × 9m", "Net height: 2.43m men, 2.24m women", "Ball circumference: 65-67 cm", "Fast spikes exceed 130 km/h", "Average rally lasts only a few seconds"]
+        },
+        players: [
+          ["Karch Kiraly", "Outside Hitter", "USA", "Olympic golds in indoor and beach volleyball; widely regarded as a great.", "Karch_Kiraly_2014.jpg"],
+          ["Giba", "Outside Hitter", "Brazil", "Brazilian icon with world titles and Olympic success.", "giba-v.jpg"],
+          ["Lang Ping", "Player / Coach", "China", "Olympic champion as player and coach who transformed women's volleyball.", "lang-v.jpg"]
+        ]
+      },
+      {
+        name: "Golf", key: "golf", icon: "⛳", type: "Individual Sport",
+        cards: {
+          "📘 Rules": ["Play ball from tee to hole in fewest strokes", "Standard round has 18 holes", "Ball usually played as it lies", "Maximum 14 clubs allowed", "Penalties for hazards and out of bounds"],
+          "♟️ Strategy": ["Course management and club selection", "Wind and terrain reading", "Green reading for putting", "Risk versus reward decisions", "Mental focus and consistency"],
+          "📜 Facts & History": ["Modern golf originated in Scotland", "St Andrews is a historic home of golf", "Returned to Olympics in 2016", "Tens of thousands of courses worldwide", "Ryder Cup is a famous team event"],
+          "🏆 Major Tournaments": ["The Masters", "U.S. Open", "The Open Championship", "PGA Championship", "Ryder Cup"],
+          "📊 Statistics": ["Par range often 3-5 per hole", "Ball diameter: 42.67 mm minimum", "Hole diameter: 108 mm", "Courses often exceed 6,500 yards", "Long drives can exceed 500 yards"]
+        },
+        players: [
+          ["Tiger Woods", "Professional", "USA", "15 major championships, 82 PGA Tour wins and transformed modern golf.", "tiger-g.jfif"],
+          ["Jack Nicklaus", "Professional", "USA", "18 major championships and one of golf's greatest champions.", "jack-g.jpg"],
+          ["Annika Sörenstam", "Professional", "Sweden", "10 major championships and dominant LPGA career.", "annika-g.jpg"]
+        ]
+      },
+      {
+        name: "Chess", key: "chess", icon: "♟️", type: "Individual Sport",
+        cards: {
+          "📘 Rules": ["64 squares and 16 pieces per player", "Objective is checkmate", "Each piece has unique movement", "Special moves include castling and en passant", "Draws by stalemate or repetition"],
+          "♟️ Strategy": ["Opening theory and preparation", "Control of the center", "Piece development and coordination", "Pawn structure optimization", "Endgame technique mastery"],
+          "📜 Facts & History": ["Originated in India around the 6th century", "Modern rules standardized in Europe", "First official world champion was Steinitz", "Millions play worldwide", "Recognized as a mind sport"],
+          "🏆 Key Tournaments": ["World Chess Championship", "Candidates Tournament", "Chess Olympiad", "Tata Steel Chess", "Norway Chess"],
+          "📊 Statistics": ["Possible positions are astronomically large", "Average game around 40 moves", "Longest games exceed 250 moves", "ELO rating measures skill", "Elite ratings exceed 2800"]
+        },
+        players: [
+          ["Magnus Carlsen", "Grandmaster", "Norway", "World champion and highest-rated player in chess history.", "magnus-ch.jpg"],
+          ["Garry Kasparov", "Grandmaster", "Russia", "World champion from 1985 to 2000 and legendary tactician.", "garry-ch.jpg"],
+          ["Bobby Fischer", "Grandmaster", "USA", "1972 world champion who changed modern chess history.", "bobby-ch.jpg"]
+        ]
+      },
+      {
+        name: "Billiards", key: "billiards", icon: "🎱", type: "Individual Sport",
+        cards: {
+          "📘 Rules": ["Variants include Pool, Snooker and Carom", "Pool involves pocketing designated balls", "Snooker uses points and sequence", "Fouls give advantage to opponent", "Cue ball must strike legal object ball"],
+          "♟️ Strategy": ["Position play and cue ball control", "Break patterns and shot selection", "Safety play", "Angle calculation and spin", "Pattern recognition and planning"],
+          "📜 Facts & History": ["Evolved from lawn games", "Snooker invented in India", "Pool became popular in USA", "Professional circuits grew in 1900s", "Played by millions worldwide"],
+          "🏆 Key Tournaments": ["World Snooker Championship", "Mosconi Cup", "U.S. Open Nine-ball", "UK Championship", "World Pool Masters"],
+          "📊 Statistics": ["Snooker table: 12ft × 6ft", "Pool table: 9ft × 4.5ft", "Snooker cue ball: 52.5mm", "Maximum snooker break: 147", "Pocket size varies by table"]
+        },
+        players: [
+          ["Ronnie O'Sullivan", "Snooker", "England", "7 world championships, fastest 147 break and known as The Rocket.", "ronnie-b.jpg"],
+          ["Efren Reyes", "Pool", "Philippines", "The Magician; regarded as one of the greatest pool players.", "efren-b.jpg"],
+          ["Stephen Hendry", "Snooker", "Scotland", "7 world championships and dominant 1990s champion.", "stephen-b.jfif"]
+        ]
+      },
+      {
+        name: "Badminton", key: "badminton", icon: "🏸", type: "Individual Sport",
+        cards: {
+          "📘 Rules": ["Rally scoring to 21 points", "Best of 3 games", "Shuttlecock must not hit ground", "Singles and doubles formats", "Service rules depend on score"],
+          "♟️ Strategy": ["Court movement and positioning", "Deceptive shot selection", "Net play and drop shots", "Stamina and speed management", "Smash power versus placement"],
+          "📜 Facts & History": ["Developed strongly in British India", "Named after Badminton House", "Olympic sport since 1992", "Fastest racket sport", "Very popular across Asia"],
+          "🏆 Key Tournaments": ["BWF World Championships", "All England Open", "Olympic Games", "Thomas Cup", "Uber Cup"],
+          "📊 Statistics": ["Court: 13.4m × 6.1m doubles", "Net height: 1.55m at edges", "Shuttlecock weight: 4.74-5.50g", "Smashes can exceed 490 km/h", "Long rallies can exceed 100 strokes"]
+        },
+        players: [
+          ["Lin Dan", "Singles", "China", "Two Olympic golds, multiple world championships and known as Super Dan.", "lin-dan-bd.jpg"],
+          ["Lee Chong Wei", "Singles", "Malaysia", "World No.1 for many weeks and legendary rival of Lin Dan.", "lee-chong-bd.jpg"],
+          ["Saina Nehwal", "Singles", "India", "Olympic bronze medalist and former world No.1.", "saina-bd.jfif"]
+        ]
+      },
+      {
+        name: "Swimming", key: "swimming", icon: "🏊", type: "Individual Sport",
+        cards: {
+          "📘 Rules": ["Four strokes: freestyle, backstroke, breaststroke and butterfly", "Races range from 50m to 1500m", "Swimmers must touch wall on turns", "False start causes disqualification", "Lane assignment based on qualifying times"],
+          "♟️ Strategy": ["Pace management", "Breathing rhythm", "Turn efficiency and underwater phase", "Stroke technique refinement", "Race strategy such as negative split"],
+          "📜 Facts & History": ["Ancient practice dating back millennia", "Modern Olympic sport since 1896", "Women's events added in 1912", "FINA founded in 1908", "Major part of Olympic program"],
+          "🏆 Key Tournaments": ["Olympic Games", "World Aquatics Championships", "World Cup Series", "Commonwealth Games", "Pan Pacific Championships"],
+          "📊 Statistics": ["Olympic pool: 50m × 25m", "Lane width: 2.5m", "Water temperature: 25-28°C", "Elite 50m freestyle under 21 seconds", "Minimum pool depth around 2m"]
+        },
+        players: [
+          ["Michael Phelps", "Multiple Events", "USA", "23 Olympic golds and most decorated Olympian ever.", "michael-sw.jpg"],
+          ["Katie Ledecky", "Distance Freestyle", "USA", "Olympic and world champion; distance freestyle legend.", "katie-sw.jpg"],
+          ["Mark Spitz", "Multiple Events", "USA", "9 Olympic golds including 7 at the 1972 Olympics.", "mark-sw.jpg"]
+        ]
+      },
+      {
+        name: "Athletics (Track & Field)", key: "athletics", icon: "🏃", type: "Individual Sport",
+        cards: {
+          "📘 Rules": ["Track events include sprints, middle and long distance", "Field events include jumps and throws", "Lanes used for shorter races", "Multiple attempts in field events", "False start can cause disqualification"],
+          "♟️ Strategy": ["Pacing and energy distribution", "Starting block technique", "Wind use in field events", "Lane positioning tactics", "Mental preparation and visualization"],
+          "📜 Facts & History": ["Ancient Olympics featured running", "Modern athletics central to Olympics", "Jesse Owens made history in 1936", "World Athletics founded in 1912", "One of the most universal sports"],
+          "🏆 Key Tournaments": ["Olympic Games", "World Athletics Championships", "Diamond League", "Continental Championships", "World Indoor Championships"],
+          "📊 Statistics": ["Standard track: 400m oval", "100m WR: 9.58s", "High jump WR: 2.45m", "Long jump WR: 8.95m", "Marathon distance: 42.195 km"]
+        },
+        players: [
+          ["Usain Bolt", "Sprinter", "Jamaica", "8 Olympic golds and world record holder in 100m and 200m.", "bolt-at.jpg"],
+          ["Florence Griffith-Joyner", "Sprinter", "USA", "Olympic champion and world record holder known as Flo-Jo.", "florence-at.jpg"],
+          ["Carl Lewis", "Sprints & Long Jump", "USA", "9 Olympic golds and dominant track and field icon.", "carl-at.jpg"]
+        ]
+      }
+    ];
+
+    const slider = document.getElementById('slider');
+    const dots = document.getElementById('dots');
+    let currentSlide = 0;
+
+    function renderSlides() {
+      slides.forEach((s, i) => {
+        const slide = document.createElement('div');
+        slide.className = 'slide' + (i === 0 ? ' active' : '');
+        slide.innerHTML = `<img src="${s.img}" alt="${s.title}" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';"><div class="slide-bg" style="--gradient:${s.gradient};display:none;">${s.icon}</div><div class="slide-caption"><h3>${s.title}</h3><p>${s.text}</p></div>`;
+        slider.insertBefore(slide, slider.querySelector('.slider-controls'));
+        const dot = document.createElement('button');
+        dot.className = i === 0 ? 'active' : '';
+        dot.addEventListener('click', () => showSlide(i));
+        dots.appendChild(dot);
+      });
+    }
+
+    function showSlide(index) {
+      const slideEls = document.querySelectorAll('.slide');
+      const dotEls = dots.querySelectorAll('button');
+      currentSlide = (index + slideEls.length) % slideEls.length;
+      slideEls.forEach((el, i) => el.classList.toggle('active', i === currentSlide));
+      dotEls.forEach((el, i) => el.classList.toggle('active', i === currentSlide));
+    }
+
+    document.getElementById('prevSlide').addEventListener('click', () => showSlide(currentSlide - 1));
+    document.getElementById('nextSlide').addEventListener('click', () => showSlide(currentSlide + 1));
+    setInterval(() => showSlide(currentSlide + 1), 4500);
+
+    function initials(name) { return name.split(' ').map(x => x[0]).join('').slice(0, 2).toUpperCase(); }
+
+    function renderSports(list = sports) {
+      const root = document.getElementById('sportsContainer');
+      root.innerHTML = '';
+      if (!list.length) {
+        root.innerHTML = `<div class="container"><div class="sport-wrap" style="text-align:center;"><h3>No sports found</h3><p>Try another search keyword.</p></div></div>`;
+        return;
+      }
+      list.forEach(sport => {
+        const section = document.createElement('section');
+        section.className = 'sport-section';
+        section.dataset.sport = sport.key;
+        const cardHtml = Object.entries(sport.cards).map(([title, items]) => `
+          <div class="info-card"><h4>${title}</h4><ul>${items.map(item => `<li>${item}</li>`).join('')}</ul></div>
+        `).join('');
+        const playersHtml = sport.players.map((p, index) => `
+  <div class="player-card" tabindex="0" role="button" data-sport="${sport.key}" data-player="${index}">
+    <img class="player-img" src="${p[4]}" alt="${p[0]}" onerror="this.outerHTML='<div class=&quot;player-fallback&quot;>${initials(p[0])}</div>'">
+    <div>
+      <h5>${p[0]}</h5>
+      <p>${p[2]} | ${p[1]}</p>
+    </div>
+  </div>
+`).join('');
+        section.innerHTML = `
+          <div class="container">
+            <div class="sport-wrap">
+              <div class="sport-head">
+                <div class="sport-icon">${sport.icon}</div>
+                <h3>${sport.name}</h3>
+                <span class="badge ${sport.type.includes('Team') ? 'team' : 'individual'}">${sport.type}</span>
+              </div>
+              <div class="info-grid">${cardHtml}</div>
+              <h3 class="legend-title">⭐ Legendary Players</h3>
+              <div class="players-grid">${playersHtml}</div>
+            </div>
+          </div>`;
+        root.appendChild(section);
+        section.querySelectorAll('.player-card').forEach(card => {
+          card.addEventListener('click', () => {
+            const sportKey = card.dataset.sport;
+            const playerIndex = Number(card.dataset.player);
+            const selectedSport = sports.find(s => s.key === sportKey);
+            openPlayerModal(selectedSport.players[playerIndex]);
+          });
+
+          card.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+              const sportKey = card.dataset.sport;
+              const playerIndex = Number(card.dataset.player);
+              const selectedSport = sports.find(s => s.key === sportKey);
+              openPlayerModal(selectedSport.players[playerIndex]);
+            }
+          });
+        });
+      });
+    }
+
+    function openPlayerModal(player) {
+      const [name, position, country, bio, image] = player;
+      document.getElementById('modalName').textContent = name;
+      document.getElementById('modalPosition').textContent = position;
+      document.getElementById('modalCountry').textContent = country;
+      document.getElementById('modalBio').textContent = bio;
+      const img = document.getElementById('modalImg');
+      img.src = image;
+      img.alt = name;
+      img.onerror = () => { img.removeAttribute('src'); img.alt = initials(name); };
+      document.getElementById('modalBackdrop').classList.add('show');
+    }
+
+    document.getElementById('closeModal').addEventListener('click', () => document.getElementById('modalBackdrop').classList.remove('show'));
+    document.getElementById('modalBackdrop').addEventListener('click', e => { if (e.target.id === 'modalBackdrop') e.currentTarget.classList.remove('show'); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') document.getElementById('modalBackdrop').classList.remove('show'); });
+
+    document.getElementById('searchInput').addEventListener('input', e => {
+      const q = e.target.value.trim().toLowerCase();
+      const filtered = sports.filter(s => JSON.stringify(s).toLowerCase().includes(q));
+      renderSports(filtered);
+    });
+
+    document.getElementById('guestbookForm').addEventListener('submit', e => {
+      e.preventDefault();
+      document.getElementById('successMessage').classList.remove('hidden');
+      e.target.reset();
+      setTimeout(() => document.getElementById('successMessage').classList.add('hidden'), 4500);
+    });
+
+    document.getElementById('newsletterForm').addEventListener('submit', e => {
+      e.preventDefault();
+      document.getElementById('newsletterMsg').textContent = 'Subscribed successfully!';
+      e.target.reset();
+    });
+
+    const navLinks = document.getElementById('navLinks');
+    document.getElementById('menuBtn').addEventListener('click', () => navLinks.classList.toggle('open'));
+
+    document.querySelectorAll('.nav-links a, footer a[href^="#"]').forEach(link => {
+      link.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
+
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+      const sections = ['home', 'sports', 'guestbook', 'about', 'contact'];
+      let current = 'home';
+      sections.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && window.scrollY >= el.offsetTop - 130) current = id;
+      });
+      document.querySelectorAll('.nav-links a').forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+    });
+
+    window.addEventListener('load', () => {
+      setTimeout(() => document.getElementById('loader').classList.add('hide'), 1000);
+    });
+
+    document.getElementById('visitDate').valueAsDate = new Date();
+    renderSlides();
+    renderSports();
+  </script>
+</body>
+
+</html>
