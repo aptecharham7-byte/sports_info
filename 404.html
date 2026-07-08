@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 - Page Not Found</title>
+
+  <style>
+    :root {
+      --dark: #06111f;
+      --dark-2: #0b1f33;
+      --green: #00d084;
+      --green-2: #087f3f;
+      --orange: #ff3d00;
+      --yellow: #ffc400;
+      --blue: #00a3ff;
+      --white: #ffffff;
+      --muted: #64748b;
+      --light: #f2f7f4;
+      --card: rgba(255,255,255,.94);
+      --shadow: 0 18px 45px rgba(6,17,31,.14);
+      --radius: 24px;
+      --transition: .28s ease;
+    }
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      font-family: "Segoe UI", Arial, sans-serif;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(135deg,var(--dark),var(--dark-2));
+      overflow:hidden;
+      color:var(--white);
+      position:relative;
+    }
+
+    /* Animated background circles */
+
+    body::before,
+    body::after{
+      content:"";
+      position:absolute;
+      border-radius:50%;
+      filter:blur(10px);
+      animation:float 12s ease-in-out infinite;
+    }
+
+    body::before{
+      width:280px;
+      height:280px;
+      background:rgba(0,208,132,.15);
+      top:-80px;
+      left:-80px;
+    }
+
+    body::after{
+      width:360px;
+      height:360px;
+      background:rgba(0,163,255,.12);
+      bottom:-120px;
+      right:-120px;
+      animation-delay:3s;
+    }
+
+    @keyframes float{
+      0%,100%{
+        transform:translateY(0px);
+      }
+      50%{
+        transform:translateY(30px);
+      }
+    }
+
+    .card{
+      width:min(92%,620px);
+      background:var(--card);
+      color:var(--dark);
+      padding:60px 40px;
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      text-align:center;
+      position:relative;
+      z-index:10;
+      backdrop-filter:blur(20px);
+    }
+
+    .code{
+      font-size:7rem;
+      font-weight:900;
+      line-height:1;
+      color:var(--orange);
+      letter-spacing:4px;
+    }
+
+    .emoji{
+      font-size:70px;
+      margin:15px 0;
+      animation:bounce 2s infinite;
+    }
+
+    @keyframes bounce{
+      0%,100%{
+        transform:translateY(0);
+      }
+      50%{
+        transform:translateY(-12px);
+      }
+    }
+
+    h1{
+      font-size:2rem;
+      margin-bottom:12px;
+      color:var(--dark);
+    }
+
+    p{
+      color:var(--muted);
+      line-height:1.7;
+      margin-bottom:35px;
+      font-size:1.05rem;
+    }
+
+    .buttons{
+      display:flex;
+      gap:15px;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      text-decoration:none;
+      padding:14px 28px;
+      border-radius:50px;
+      font-weight:600;
+      transition:var(--transition);
+      display:inline-block;
+    }
+
+    .primary{
+      background:var(--green);
+      color:white;
+    }
+
+    .primary:hover{
+      background:var(--green-2);
+      transform:translateY(-3px);
+    }
+
+    .secondary{
+      background:transparent;
+      border:2px solid var(--blue);
+      color:var(--blue);
+    }
+
+    .secondary:hover{
+      background:var(--blue);
+      color:white;
+      transform:translateY(-3px);
+    }
+
+    .footer{
+      margin-top:40px;
+      color:var(--muted);
+      font-size:.9rem;
+    }
+
+    @media(max-width:600px){
+
+      .card{
+        padding:45px 25px;
+      }
+
+      .code{
+        font-size:5rem;
+      }
+
+      h1{
+        font-size:1.6rem;
+      }
+
+      p{
+        font-size:1rem;
+      }
+
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="card">
+
+    <div class="code">404</div>
+
+    <div class="emoji">🚧</div>
+
+    <h1>Oops! Page Not Found</h1>
+
+    <p>
+      The page you're looking for may have been moved,
+      deleted, or never existed.
+      Let's help you get back on track.
+    </p>
+
+    <div class="buttons">
+      <a href="/" class="btn primary">🏠 Back Home</a>
+      <a href="javascript:history.back()" class="btn secondary">⬅ Go Back</a>
+    </div>
+
+    <div class="footer">
+      Error Code: <strong>404</strong> • Designed with your custom color palette
+    </div>
+
+</div>
+
+</body>
+</html>
